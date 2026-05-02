@@ -27,6 +27,9 @@ public class IamUser {
     @Column(nullable = false)
     private boolean enabled;
 
+    @Column(length = 100)
+    private String passwordHash;
+
     @Column(nullable = false)
     private Instant createdAt;
 
@@ -55,5 +58,13 @@ public class IamUser {
 
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 }

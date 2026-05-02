@@ -2,6 +2,7 @@ package com.example.urbanagent.iam.security;
 
 import com.example.urbanagent.common.api.ApiResponse;
 import com.example.urbanagent.common.error.ErrorCode;
+import com.example.urbanagent.iam.application.JwtTokenService;
 import com.example.urbanagent.iam.application.UserContextResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.DispatcherType;
@@ -16,6 +17,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
@@ -24,7 +27,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import java.nio.charset.StandardCharsets;
 
 @Configuration
-@EnableConfigurationProperties({OAuth2SecurityProperties.class, HeaderAuthSecurityProperties.class})
+@EnableConfigurationProperties({OAuth2SecurityProperties.class, HeaderAuthSecurityProperties.class, JwtProperties.class})
 @EnableMethodSecurity
 public class ApiSecurityConfig {
 
@@ -39,6 +42,7 @@ public class ApiSecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                            JwtAuthenticationFilter jwtAuthenticationFilter,
                                             HeaderUserAuthenticationFilter headerUserAuthenticationFilter,
                                             UserContextFilter userContextFilter,
                                             JwtUserContextAuthenticationConverter jwtUserContextAuthenticationConverter) throws Exception {
@@ -53,7 +57,8 @@ public class ApiSecurityConfig {
                         .requestMatchers(
                                 AntPathRequestMatcher.antMatcher("/actuator/health"),
                                 AntPathRequestMatcher.antMatcher("/actuator/health/**"),
-                                AntPathRequestMatcher.antMatcher("/error")
+                                AntPathRequestMatcher.antMatcher("/error"),
+                                AntPathRequestMatcher.antMatcher("/api/v1/auth/login")
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
@@ -71,10 +76,20 @@ public class ApiSecurityConfig {
                             writeError(response, HttpServletResponse.SC_FORBIDDEN, ErrorCode.ACCESS_DENIED, "当前身份无访问权限"))
                     .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtUserContextAuthenticationConverter)));
         }
-        http
+        http.addFilterBefore(jwtAuthenticationFilter, AnonymousAuthenticationFilter.class)
                 .addFilterBefore(headerUserAuthenticationFilter, AnonymousAuthenticationFilter.class)
                 .addFilterAfter(userContextFilter, HeaderUserAuthenticationFilter.class);
         return http.build();
+    }
+
+    @Bean
+    JwtAuthenticationFilter jwtAuthenticationFilter(JwtTokenService jwtTokenService) {
+        return new JwtAuthenticationFilter(jwtTokenService);
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

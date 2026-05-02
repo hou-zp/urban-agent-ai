@@ -69,7 +69,11 @@ springdoc:
 urban-agent:
   security:
     header-auth:
-      enabled: true
+      enabled: false
+    jwt:
+      # 提示：在 application-dev.yml 或环境变量 JWT_SECRET 中配置实际密钥
+      secret: dev-only-secret-replace-in-production
+      expiration-hours: 8
     oauth2:
       enabled: false
       claims:

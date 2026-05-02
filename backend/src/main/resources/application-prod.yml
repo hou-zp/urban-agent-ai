@@ -2,3 +2,7 @@ urban-agent:
   security:
     header-auth:
       enabled: false
+    jwt:
+      secret: ${JWT_SECRET:}
+      expiration-hours: 24
+      issuer: urban-agent

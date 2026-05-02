@@ -1,0 +1,9 @@
+urban-agent:
+  security:
+    header-auth:
+      enabled: false
+    jwt:
+      # 请修改为 32 字符以上的随机字符串
+      secret: dev-please-override-before-production-12345
+      expiration-hours: 8
+      issuer: urban-agent-dev
