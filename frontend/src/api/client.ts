@@ -105,16 +105,11 @@ export async function postForm<T>(url: string, body: FormData): Promise<T> {
 }
 
 function defaultHeaders(): HeadersInit {
-  const headers: Record<string, string> = {
-    'X-User-Id': readStorage(STORAGE_KEYS.userId) || 'demo-user',
-    'X-User-Role': readStorage(STORAGE_KEYS.role) || 'ADMIN',
-    'X-User-Region': readStorage(STORAGE_KEYS.region) || 'shaoxing-keqiao',
-  }
+  const headers: Record<string, string> = {}
   const token = readStorage(STORAGE_KEYS.token)
   if (token) {
     headers.Authorization = `Bearer ${token}`
   }
-
   return headers
 }
 
