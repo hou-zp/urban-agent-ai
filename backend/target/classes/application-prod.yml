@@ -1,0 +1,4 @@
+urban-agent:
+  security:
+    header-auth:
+      enabled: false

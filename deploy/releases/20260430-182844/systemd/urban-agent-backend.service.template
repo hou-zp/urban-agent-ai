@@ -1,0 +1,16 @@
+[Unit]
+Description=Urban Agent Backend
+After=network.target
+
+[Service]
+Type=simple
+User=${RUN_USER}
+WorkingDirectory=${STAGING_DIR}/current/backend
+EnvironmentFile=${STAGING_DIR}/config/staging.env
+ExecStart=/usr/bin/java -jar ${STAGING_DIR}/current/backend/urban-agent-backend.jar
+Restart=always
+RestartSec=5
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+export SPRING_PROFILES_ACTIVE="${SPRING_PROFILES_ACTIVE:-postgres}"
+export URBAN_AGENT_BOOTSTRAP_DEMO_DATA_ENABLED="${URBAN_AGENT_BOOTSTRAP_DEMO_DATA_ENABLED:-true}"
+export URBAN_AGENT_BOOTSTRAP_DEMO_DATA_RESET_ON_STARTUP="${URBAN_AGENT_BOOTSTRAP_DEMO_DATA_RESET_ON_STARTUP:-true}"
+
+cd "$PROJECT_DIR"
+mvn spring-boot:run

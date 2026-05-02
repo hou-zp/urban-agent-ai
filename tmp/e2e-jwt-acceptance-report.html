@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JWT 端到端验收报告</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --ok: #0f766e;
+      --fail: #b42318;
+      --skip: #9a6700;
+      --border: #dbe2ea;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    p.meta { margin: 0 0 24px; color: var(--muted); }
+    .summary {
+      padding: 16px 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+    }
+    .status.passed { color: var(--ok); background: #ecfdf3; }
+    .status.failed { color: var(--fail); background: #fef3f2; }
+    .status.skipped { color: var(--skip); background: #fffaeb; }
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text);
+      background: #f8fafc;
+      border-radius: 6px;
+      padding: 12px;
+      border: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>JWT 端到端验收报告</h1>
+    <p class="meta">生成时间：2026/5/2 20:22:53 ｜ 后端：http://127.0.0.1:8081 ｜ 结果：全部通过</p>
+    <section class="summary">
+      <span class="status passed">全部通过</span>
+    </section>
+    <section class="grid">
+      <article class="card">
+            <h2>
+              <span>基础健康检查</span>
+              <span class="status passed">passed</span>
+            </h2>
+            <pre>{&quot;status&quot;:&quot;UP&quot;,&quot;groups&quot;:[&quot;liveness&quot;,&quot;readiness&quot;]}</pre>
+          </article>
+<article class="card">
+            <h2>
+              <span>DeepSeek 连通性</span>
+              <span class="status passed">passed</span>
+            </h2>
+            <pre>模型 deepseek-v4-flash 返回：</pre>
+          </article>
+<article class="card">
+            <h2>
+              <span>问数目录同步</span>
+              <span class="status passed">passed</span>
+            </h2>
+            <pre>{
+  &quot;dataSourceCount&quot;: 1,
+  &quot;tableCount&quot;: 8,
+  &quot;fieldCount&quot;: 54,
+  &quot;metricCount&quot;: 9
+}</pre>
+          </article>
+<article class="card">
+            <h2>
+              <span>聊天主链</span>
+              <span class="status passed">passed</span>
+            </h2>
+            <pre>{
+  &quot;sessionId&quot;: &quot;427a3fa7-d3f1-44d9-ba50-c07739d4f8e6&quot;,
+  &quot;runId&quot;: &quot;db80ef88-f91e-4ef8-ba22-3450694a8c32&quot;,
+  &quot;answer&quot;: &quot;已识别为综合分析任务，已生成执行计划：\n1. 问题解析\n2. 数据查询准备\n3. 数据查询执行\n4. 依据检索\n5. 答案生成\n可通过计划执行接口逐步推进数据查询、依据整理和结论生成。&quot;,
+  &quot;citations&quot;: [],...</pre>
+          </article>
+<article class="card">
+            <h2>
+              <span>问数主链</span>
+              <span class="status passed">passed</span>
+            </h2>
+            <pre>{
+  &quot;answer&quot;: &quot;油烟超标预警数量为 10 起。已按您的问题整理为可直接查看的结果。&quot;,
+  &quot;recordCount&quot;: 0,
+  &quot;maskedFields&quot;: []
+}</pre>
+          </article>
+<article class="card">
+            <h2>
+              <span>知识库主链</span>
+              <span class="status passed">passed</span>
+            </h2>
+            <pre>{
+  &quot;documentId&quot;: &quot;caf31e3b-654d-4422-8a8b-f37cc8676d78&quot;,
+  &quot;status&quot;: &quot;active&quot;,
+  &quot;attachmentContent&quot;: &quot;验收附件正文&quot;,
+  &quot;searchHitCount&quot;: 2,
+  &quot;firstHit&quot;: &quot;JWT 验收知识文档 1777724573054&quot;
+}</pre>
+          </article>
+<article class="card">
+            <h2>
+              <span>审计主链</span>
+              <span class="status passed">passed</span>
+            </h2>
+            <pre>{
+  &quot;runAuditCount&quot;: 1,
+  &quot;toolCallCount&quot;: 1,
+  &quot;dataAccessCount&quot;: 2,
+  &quot;modelCallCount&quot;: 6,
+  &quot;runLogCount&quot;: 3,
+  &quot;latestRun&quot;: {
+    &quot;id&quot;: &quot;db80ef88-f91e-4ef8-ba22-3450694a8c32&quot;,
+    &quot;sessionId&quot;: &quot;427a3fa7-d3f1-44d9-ba50-c07739d4f8e6&quot;,
+   ...</pre>
+          </article>
+    </section>
+  </main>
+</body>
+</html>

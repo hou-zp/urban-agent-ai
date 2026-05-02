@@ -1,0 +1,81 @@
+case_id,category,question,expected_metric,expected_dimensions,expected_time_scope,expected_permission_rule,expected_behavior,judge_role
+DAT-001,data_query,查询本周各街道投诉数量排行,complaint_count,street_name,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-002,data_query,查询本月各街道投诉数量排行,complaint_count,street_name,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-003,data_query,查询2026年4月各街道投诉数量排行,complaint_count,street_name,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-004,data_query,查询最近7天各街道投诉数量排行,complaint_count,street_name,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-005,data_query,查询本周各网格投诉数量排行,complaint_count,grid_name,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-006,data_query,查询本月各网格投诉数量排行,complaint_count,grid_name,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-007,data_query,查询2026年4月各网格投诉数量排行,complaint_count,grid_name,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-008,data_query,查询最近7天各网格投诉数量排行,complaint_count,grid_name,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-009,data_query,查询本周不同状态投诉数量排行,complaint_count,status,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-010,data_query,查询本月不同状态投诉数量排行,complaint_count,status,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-011,data_query,查询2026年4月不同状态投诉数量排行,complaint_count,status,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-012,data_query,查询最近7天不同状态投诉数量排行,complaint_count,status,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-013,data_query,查询本周各区域投诉数量排行,complaint_count,region_code,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-014,data_query,查询本月各区域投诉数量排行,complaint_count,region_code,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-015,data_query,查询2026年4月各区域投诉数量排行,complaint_count,region_code,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-016,data_query,查询最近7天各区域投诉数量排行,complaint_count,region_code,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.complaint_count 汇总结果和口径说明,数据治理
+DAT-017,data_query,查询本周各街道巡查问题数量排行,inspection_problem_count,street_name,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-018,data_query,查询本月各街道巡查问题数量排行,inspection_problem_count,street_name,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-019,data_query,查询2026年4月各街道巡查问题数量排行,inspection_problem_count,street_name,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-020,data_query,查询最近7天各街道巡查问题数量排行,inspection_problem_count,street_name,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-021,data_query,查询本周各网格巡查问题数量排行,inspection_problem_count,grid_name,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-022,data_query,查询本月各网格巡查问题数量排行,inspection_problem_count,grid_name,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-023,data_query,查询2026年4月各网格巡查问题数量排行,inspection_problem_count,grid_name,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-024,data_query,查询最近7天各网格巡查问题数量排行,inspection_problem_count,grid_name,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-025,data_query,查询本周不同状态巡查问题数量排行,inspection_problem_count,status,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-026,data_query,查询本月不同状态巡查问题数量排行,inspection_problem_count,status,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-027,data_query,查询2026年4月不同状态巡查问题数量排行,inspection_problem_count,status,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-028,data_query,查询最近7天不同状态巡查问题数量排行,inspection_problem_count,status,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-029,data_query,查询本周各区域巡查问题数量排行,inspection_problem_count,region_code,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-030,data_query,查询本月各区域巡查问题数量排行,inspection_problem_count,region_code,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-031,data_query,查询2026年4月各区域巡查问题数量排行,inspection_problem_count,region_code,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-032,data_query,查询最近7天各区域巡查问题数量排行,inspection_problem_count,region_code,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_inspection_record.inspection_problem_count 汇总结果和口径说明,数据治理
+DAT-033,data_query,查询本周各街道超期案件数量排行,overdue_case_count,street_name,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-034,data_query,查询本月各街道超期案件数量排行,overdue_case_count,street_name,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-035,data_query,查询2026年4月各街道超期案件数量排行,overdue_case_count,street_name,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-036,data_query,查询最近7天各街道超期案件数量排行,overdue_case_count,street_name,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-037,data_query,查询本周各网格超期案件数量排行,overdue_case_count,grid_name,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-038,data_query,查询本月各网格超期案件数量排行,overdue_case_count,grid_name,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-039,data_query,查询2026年4月各网格超期案件数量排行,overdue_case_count,grid_name,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-040,data_query,查询最近7天各网格超期案件数量排行,overdue_case_count,grid_name,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-041,data_query,查询本周不同状态超期案件数量排行,overdue_case_count,status,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-042,data_query,查询本月不同状态超期案件数量排行,overdue_case_count,status,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-043,data_query,查询2026年4月不同状态超期案件数量排行,overdue_case_count,status,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-044,data_query,查询最近7天不同状态超期案件数量排行,overdue_case_count,status,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-045,data_query,查询本周各区域超期案件数量排行,overdue_case_count,region_code,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-046,data_query,查询本月各区域超期案件数量排行,overdue_case_count,region_code,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-047,data_query,查询2026年4月各区域超期案件数量排行,overdue_case_count,region_code,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-048,data_query,查询最近7天各区域超期案件数量排行,overdue_case_count,region_code,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.overdue_case_count 汇总结果和口径说明,数据治理
+DAT-049,data_query,查询本周各街道首次响应超时数量排行,response_timeout_count,street_name,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-050,data_query,查询本月各街道首次响应超时数量排行,response_timeout_count,street_name,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-051,data_query,查询2026年4月各街道首次响应超时数量排行,response_timeout_count,street_name,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-052,data_query,查询最近7天各街道首次响应超时数量排行,response_timeout_count,street_name,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-053,data_query,查询本周各网格首次响应超时数量排行,response_timeout_count,grid_name,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-054,data_query,查询本月各网格首次响应超时数量排行,response_timeout_count,grid_name,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-055,data_query,查询2026年4月各网格首次响应超时数量排行,response_timeout_count,grid_name,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-056,data_query,查询最近7天各网格首次响应超时数量排行,response_timeout_count,grid_name,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-057,data_query,查询本周不同状态首次响应超时数量排行,response_timeout_count,status,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-058,data_query,查询本月不同状态首次响应超时数量排行,response_timeout_count,status,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-059,data_query,查询2026年4月不同状态首次响应超时数量排行,response_timeout_count,status,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-060,data_query,查询最近7天不同状态首次响应超时数量排行,response_timeout_count,status,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-061,data_query,查询本周各区域首次响应超时数量排行,response_timeout_count,region_code,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-062,data_query,查询本月各区域首次响应超时数量排行,response_timeout_count,region_code,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-063,data_query,查询2026年4月各区域首次响应超时数量排行,response_timeout_count,region_code,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-064,data_query,查询最近7天各区域首次响应超时数量排行,response_timeout_count,region_code,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_complaint_order.response_timeout_count 汇总结果和口径说明,数据治理
+DAT-065,data_query,查询本周各街道已办结案件数量排行,closed_case_count,street_name,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-066,data_query,查询本月各街道已办结案件数量排行,closed_case_count,street_name,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-067,data_query,查询2026年4月各街道已办结案件数量排行,closed_case_count,street_name,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-068,data_query,查询最近7天各街道已办结案件数量排行,closed_case_count,street_name,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-069,data_query,查询本周各网格已办结案件数量排行,closed_case_count,grid_name,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-070,data_query,查询本月各网格已办结案件数量排行,closed_case_count,grid_name,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-071,data_query,查询2026年4月各网格已办结案件数量排行,closed_case_count,grid_name,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-072,data_query,查询最近7天各网格已办结案件数量排行,closed_case_count,grid_name,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-073,data_query,查询本周不同状态已办结案件数量排行,closed_case_count,status,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-074,data_query,查询本月不同状态已办结案件数量排行,closed_case_count,status,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-075,data_query,查询2026年4月不同状态已办结案件数量排行,closed_case_count,status,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-076,data_query,查询最近7天不同状态已办结案件数量排行,closed_case_count,status,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-077,data_query,查询本周各区域已办结案件数量排行,closed_case_count,region_code,本周,追加当前周日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-078,data_query,查询本月各区域已办结案件数量排行,closed_case_count,region_code,本月,追加当前月日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-079,data_query,查询2026年4月各区域已办结案件数量排行,closed_case_count,region_code,2026年4月,使用 2026-04-01 至 2026-04-30，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理
+DAT-080,data_query,查询最近7天各区域已办结案件数量排行,closed_case_count,region_code,最近7天,追加最近7天日期过滤，仅访问授权字段并追加 region_code 过滤,生成只读 SQL 预览，执行后返回 fact_case_status.closed_case_count 汇总结果和口径说明,数据治理

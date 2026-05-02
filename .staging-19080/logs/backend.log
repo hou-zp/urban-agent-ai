@@ -1,0 +1,46 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.6)
+
+{"@timestamp":"2026-04-30T18:29:47.854226+08:00","@version":"1","level":"INFO","logger":"o.h.validator.internal.util.Version","thread":"background-preinit","message":"HV000001: Hibernate Validator 8.0.3.Final","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:47.874332+08:00","@version":"1","level":"INFO","logger":"c.e.urbanagent.UrbanAgentApplication","thread":"main","message":"Starting UrbanAgentApplication v0.0.1-SNAPSHOT using Java 24.0.2 with PID 30213 (/Users/houzp/Developer/projects/learning/ai-agent/deploy/releases/20260430-182943/backend/urban-agent-backend.jar started by houzp in /Users/houzp/Developer/projects/learning/ai-agent)","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:47.874815+08:00","@version":"1","level":"INFO","logger":"c.e.urbanagent.UrbanAgentApplication","thread":"main","message":"The following 1 profile is active: \"postgres\"","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:48.376733+08:00","@version":"1","level":"INFO","logger":"o.s.d.r.c.RepositoryConfigurationDelegate","thread":"main","message":"Bootstrapping Spring Data JPA repositories in DEFAULT mode.","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:48.458931+08:00","@version":"1","level":"INFO","logger":"o.s.d.r.c.RepositoryConfigurationDelegate","thread":"main","message":"Finished Spring Data repository scanning in 77 ms. Found 15 JPA repository interfaces.","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:48.70574+08:00","@version":"1","level":"INFO","logger":"o.s.b.w.e.tomcat.TomcatWebServer","thread":"main","message":"Tomcat initialized with port 19080 (http)","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:48.717096+08:00","@version":"1","level":"INFO","logger":"o.a.coyote.http11.Http11NioProtocol","thread":"main","message":"Initializing ProtocolHandler [\"http-nio-19080\"]","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:48.717751+08:00","@version":"1","level":"INFO","logger":"o.a.catalina.core.StandardService","thread":"main","message":"Starting service [Tomcat]","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:48.71783+08:00","@version":"1","level":"INFO","logger":"o.a.catalina.core.StandardEngine","thread":"main","message":"Starting Servlet engine: [Apache Tomcat/10.1.46]","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:48.7335+08:00","@version":"1","level":"INFO","logger":"o.a.c.c.C.[Tomcat].[localhost].[/]","thread":"main","message":"Initializing Spring embedded WebApplicationContext","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:48.73381+08:00","@version":"1","level":"INFO","logger":"o.s.b.w.s.c.ServletWebServerApplicationContext","thread":"main","message":"Root WebApplicationContext: initialization completed in 835 ms","application":"urban-agent-backend"}
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by io.opentelemetry.internal.shaded.jctools.util.UnsafeAccess (jar:nested:/Users/houzp/Developer/projects/learning/ai-agent/deploy/releases/20260430-182943/backend/urban-agent-backend.jar/!BOOT-INF/lib/opentelemetry-sdk-trace-1.49.0.jar!/)
+WARNING: Please consider reporting this to the maintainers of class io.opentelemetry.internal.shaded.jctools.util.UnsafeAccess
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+{"@timestamp":"2026-04-30T18:29:48.97222+08:00","@version":"1","level":"INFO","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main","message":"HikariPool-1 - Starting...","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:49.078572+08:00","@version":"1","level":"INFO","logger":"com.zaxxer.hikari.pool.HikariPool","thread":"main","message":"HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6e8aea7e","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:49.079275+08:00","@version":"1","level":"INFO","logger":"com.zaxxer.hikari.HikariDataSource","thread":"main","message":"HikariPool-1 - Start completed.","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:49.093666+08:00","@version":"1","level":"INFO","logger":"org.flywaydb.core.FlywayExecutor","thread":"main","message":"Database: jdbc:postgresql://localhost:5432/urban_agent (PostgreSQL 15.14)","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:49.133722+08:00","@version":"1","level":"INFO","logger":"o.f.core.internal.command.DbValidate","thread":"main","message":"Successfully validated 6 migrations (execution time 00:00.018s)","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:49.162941+08:00","@version":"1","level":"INFO","logger":"o.f.core.internal.command.DbMigrate","thread":"main","message":"Current version of schema \"public\": 6","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:49.164974+08:00","@version":"1","level":"INFO","logger":"o.f.core.internal.command.DbMigrate","thread":"main","message":"Schema \"public\" is up to date. No migration necessary.","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:49.207641+08:00","@version":"1","level":"INFO","logger":"o.h.jpa.internal.util.LogHelper","thread":"main","message":"HHH000204: Processing PersistenceUnitInfo [name: default]","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:49.231744+08:00","@version":"1","level":"INFO","logger":"org.hibernate.Version","thread":"main","message":"HHH000412: Hibernate ORM core version 6.6.29.Final","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:49.245459+08:00","@version":"1","level":"INFO","logger":"o.h.c.i.RegionFactoryInitiator","thread":"main","message":"HHH000026: Second-level cache disabled","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:49.357656+08:00","@version":"1","level":"INFO","logger":"o.s.o.j.p.SpringPersistenceUnitInfo","thread":"main","message":"No LoadTimeWeaver setup: ignoring JPA class transformer","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:49.397319+08:00","@version":"1","level":"INFO","logger":"o.hibernate.orm.connections.pooling","thread":"main","message":"HHH10001005: Database info:\n\tDatabase JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']\n\tDatabase driver: undefined/unknown\n\tDatabase version: 15.14\n\tAutocommit mode: undefined/unknown\n\tIsolation level: undefined/unknown\n\tMinimum pool size: undefined/unknown\n\tMaximum pool size: undefined/unknown","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:49.855408+08:00","@version":"1","level":"INFO","logger":"o.h.e.t.j.p.i.JtaPlatformInitiator","thread":"main","message":"HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:49.886265+08:00","@version":"1","level":"INFO","logger":"o.s.o.j.LocalContainerEntityManagerFactoryBean","thread":"main","message":"Initialized JPA EntityManagerFactory for persistence unit 'default'","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:50.479368+08:00","@version":"1","level":"INFO","logger":"o.s.b.a.e.web.EndpointLinksResolver","thread":"main","message":"Exposing 2 endpoints beneath base path '/actuator'","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:50.507214+08:00","@version":"1","level":"INFO","logger":"o.a.coyote.http11.Http11NioProtocol","thread":"main","message":"Starting ProtocolHandler [\"http-nio-19080\"]","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:50.51685+08:00","@version":"1","level":"INFO","logger":"o.s.b.w.e.tomcat.TomcatWebServer","thread":"main","message":"Tomcat started on port 19080 (http) with context path '/'","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:50.525612+08:00","@version":"1","level":"INFO","logger":"c.e.urbanagent.UrbanAgentApplication","thread":"main","message":"Started UrbanAgentApplication in 3.017 seconds (process running for 3.254)","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:50.675888+08:00","@version":"1","level":"INFO","logger":"o.a.c.c.C.[Tomcat].[localhost].[/]","thread":"http-nio-19080-exec-1","message":"Initializing Spring DispatcherServlet 'dispatcherServlet'","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:50.676035+08:00","@version":"1","level":"INFO","logger":"o.s.web.servlet.DispatcherServlet","thread":"http-nio-19080-exec-1","message":"Initializing Servlet 'dispatcherServlet'","application":"urban-agent-backend"}
+{"@timestamp":"2026-04-30T18:29:50.676705+08:00","@version":"1","level":"INFO","logger":"o.s.web.servlet.DispatcherServlet","thread":"http-nio-19080-exec-1","message":"Completed initialization in 0 ms","application":"urban-agent-backend"}

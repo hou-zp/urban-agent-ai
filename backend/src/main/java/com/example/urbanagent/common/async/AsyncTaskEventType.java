@@ -1,0 +1,8 @@
+package com.example.urbanagent.common.async;
+
+public enum AsyncTaskEventType {
+    KNOWLEDGE_DOCUMENT_INDEX_REQUESTED,
+    KNOWLEDGE_INDEX_REBUILD_REQUESTED,
+    KNOWLEDGE_QUALITY_CHECK_REQUESTED,
+    AI_EVALUATION_REQUESTED
+}

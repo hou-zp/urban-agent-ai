@@ -1,0 +1,166 @@
+spring:
+  application:
+    name: urban-agent-backend
+  datasource:
+    url: jdbc:h2:file:./data/urban-agent;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+  jackson:
+    time-zone: Asia/Shanghai
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      database: ${REDIS_DATABASE:0}
+      timeout: ${REDIS_TIMEOUT:2s}
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    virtual-host: ${RABBITMQ_VHOST:/}
+
+management:
+  health:
+    rabbit:
+      enabled: false
+    redis:
+      enabled: false
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://localhost:4318/v1/traces}
+
+logging:
+  include-application-name: false
+  pattern:
+    correlation: "[${spring.application.name:},%X{traceId:-},%X{spanId:-}] "
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+urban-agent:
+  security:
+    header-auth:
+      enabled: true
+    oauth2:
+      enabled: false
+      claims:
+        user-id: sub
+        role: role
+        region: region
+  ai:
+    gateway:
+      type: ${URBAN_AGENT_AI_GATEWAY_TYPE:legacy}
+  model:
+    provider: ${URBAN_AGENT_MODEL_PROVIDER:openai-compatible}
+    api-key: ${OPENAI_API_KEY:}
+    base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+    embedding-api-key: ${OPENAI_EMBEDDING_API_KEY:}
+    embedding-base-url: ${OPENAI_EMBEDDING_BASE_URL:}
+    chat-path: /v1/chat/completions
+    embeddings-path: /v1/embeddings
+    chat-model: ${OPENAI_MODEL:gpt-4o-mini}
+    embedding-model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
+    temperature: 0.2
+    connect-timeout-ms: ${OPENAI_CONNECT_TIMEOUT_MS:5000}
+    read-timeout-ms: ${OPENAI_READ_TIMEOUT_MS:30000}
+  bootstrap:
+    demo-data:
+      enabled: false
+      reset-on-startup: false
+  knowledge:
+    upload:
+      max-file-size-bytes: 1048576
+      max-filename-length: 128
+      allowed-content-types:
+        - text/plain
+        - text/markdown
+      allowed-extensions:
+        - txt
+        - md
+        - markdown
+  runtime:
+    chat-requests-per-minute: 30
+    query-preview-requests-per-minute: 60
+    query-execute-requests-per-minute: 20
+    rate-limit-store: memory
+    request-timeout-ms: 15000
+    stream-timeout-ms: 30000
+    sql-query-timeout-seconds: 30
+    stream-chunk-delay-ms: 10
+  async:
+    publisher: none
+    exchange: urban-agent.async
+    routing:
+      knowledge-document-index-requested: knowledge.document.index.requested
+      knowledge-index-rebuild-requested: knowledge.index.rebuild.requested
+      knowledge-quality-check-requested: knowledge.quality.check.requested
+      ai-evaluation-requested: ai.evaluation.requested
+  object-storage:
+    provider: local
+    bucket: knowledge-attachments
+    local-base-path: ./data/object-storage
+    endpoint: ${OBJECT_STORAGE_ENDPOINT:}
+    access-key: ${OBJECT_STORAGE_ACCESS_KEY:}
+    secret-key: ${OBJECT_STORAGE_SECRET_KEY:}
+    public-base-url: ${OBJECT_STORAGE_PUBLIC_BASE_URL:}
+    max-file-size-bytes: 10485760
+    allowed-content-types:
+      - text/plain
+      - text/markdown
+      - application/pdf
+      - application/msword
+      - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+      - image/png
+      - image/jpeg
+    allowed-extensions:
+      - txt
+      - md
+      - markdown
+      - pdf
+      - doc
+      - docx
+      - png
+      - jpg
+      - jpeg
+  agentscope:
+    enabled: false
+    model-name: gpt-4o-mini
+    api-key: ${OPENAI_API_KEY:}
+    base-url:
+    max-iters: 6
+    system-prompt: |
+      你是城管业务智能助手。
+      你的职责是：
+      1. 优先通过工具检索政策、法规和业务知识后再回答。
+      2. 回答必须基于检索结果，不得编造依据。
+      3. 对法规、处罚、执法流程相关问题，优先调用法规检索工具。
+      4. 当检索结果不足时，应明确说明信息不足。

@@ -1,0 +1,11 @@
+package com.example.urbanagent.agent.application.dto;
+
+public enum PlanStepFailureCode {
+    SQL_PERMISSION_DENIED,
+    PLAN_QUERY_PREVIEW_MISSING,
+    PLAN_QUERY_RESULT_MISSING,
+    PLAN_KNOWLEDGE_RESULT_MISSING,
+    PLAN_DEPENDENCY_INCOMPLETE,
+    PLAN_DEPENDENCY_BLOCKED,
+    PLAN_STEP_EXECUTION_FAILED
+}

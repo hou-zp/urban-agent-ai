@@ -1,0 +1,14 @@
+-------------------------------------------------------------------------------
+Test set: com.example.urbanagent.DemoBootstrapIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 3.444 s <<< FAILURE! -- in com.example.urbanagent.DemoBootstrapIntegrationTest
+com.example.urbanagent.DemoBootstrapIntegrationTest.shouldBootstrapDemoDataOnStartup -- Time elapsed: 0.011 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+expected: 3L
+ but was: 4L
+	at com.example.urbanagent.DemoBootstrapIntegrationTest.shouldBootstrapDemoDataOnStartup(DemoBootstrapIntegrationTest.java:30)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+

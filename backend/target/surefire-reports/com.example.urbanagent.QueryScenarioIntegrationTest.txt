@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.example.urbanagent.QueryScenarioIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.376 s -- in com.example.urbanagent.QueryScenarioIntegrationTest
