@@ -16,8 +16,6 @@ import java.util.Optional;
 @Service
 public class UserContextResolver {
 
-    private static final String DEFAULT_USER_ID = "demo-user";
-
     private final IamUserRepository iamUserRepository;
     private final IamRoleRepository iamRoleRepository;
     private final IamRegionRepository iamRegionRepository;
@@ -32,7 +30,10 @@ public class UserContextResolver {
 
     @Transactional(readOnly = true)
     public UserContext resolve(String userIdHeader, String roleHeader, String regionHeader) {
-        String userId = valueOrDefault(userIdHeader, DEFAULT_USER_ID);
+        if (userIdHeader == null || userIdHeader.isBlank()) {
+            throw new BusinessException(ErrorCode.USER_CONTEXT_INVALID, "未提供身份凭证");
+        }
+        String userId = userIdHeader.trim();
         Optional<IamUser> user = iamUserRepository.findByIdAndEnabledTrue(userId);
 
         String role = normalizeRole(roleHeader);
@@ -60,13 +61,6 @@ public class UserContextResolver {
         if (!iamRegionRepository.existsByRegionCodeAndEnabledTrue(region)) {
             throw new BusinessException(ErrorCode.USER_CONTEXT_INVALID, "区域不存在或已停用: " + region);
         }
-    }
-
-    private String valueOrDefault(String value, String defaultValue) {
-        if (value == null || value.isBlank()) {
-            return defaultValue;
-        }
-        return value.trim();
     }
 
     private String normalizeRole(String role) {

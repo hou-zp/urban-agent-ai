@@ -7,6 +7,7 @@ import com.example.urbanagent.agent.domain.AgentRun;
 import com.example.urbanagent.agent.repository.AgentRunRepository;
 import com.example.urbanagent.common.error.BusinessException;
 import com.example.urbanagent.common.error.ErrorCode;
+import com.example.urbanagent.iam.domain.UserContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +31,7 @@ public class RunApplicationService {
 
     @Transactional(readOnly = true)
     public RunView getRun(String runId) {
-        AgentRun run = agentRunRepository.findById(runId)
+        AgentRun run = agentRunRepository.findByIdWithSessionOwner(runId, UserContextHolder.get().userId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.RUN_NOT_FOUND));
         return RunView.from(run);
     }

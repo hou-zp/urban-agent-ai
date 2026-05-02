@@ -28,6 +28,7 @@ import com.example.urbanagent.agent.repository.ToolCallRepository;
 import com.example.urbanagent.audit.application.AuditLogService;
 import com.example.urbanagent.common.error.BusinessException;
 import com.example.urbanagent.common.error.ErrorCode;
+import com.example.urbanagent.iam.domain.UserContextHolder;
 import com.example.urbanagent.knowledge.application.KnowledgeSearchService;
 import com.example.urbanagent.knowledge.application.dto.KnowledgeSearchHit;
 import com.example.urbanagent.knowledge.domain.KnowledgeCategory;
@@ -220,7 +221,7 @@ public class PlanApplicationService {
         if (latestPlan.status() != PlanStatus.COMPLETED.name()) {
             throw new BusinessException(ErrorCode.BAD_REQUEST, "综合分析任务尚未形成最终回答");
         }
-        AgentRun run = agentRunRepository.findById(runId)
+        AgentRun run = agentRunRepository.findByIdWithSessionOwner(runId, UserContextHolder.get().userId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.RUN_NOT_FOUND));
         AgentMessage answerMessage = agentMessageRepository.findBySessionIdOrderByCreatedAtAsc(run.getSessionId())
                 .stream()
@@ -864,7 +865,7 @@ public class PlanApplicationService {
     }
 
     private void savePlanAnswerMessage(String runId, AgentAnswer answer) {
-        AgentRun run = agentRunRepository.findById(runId)
+        AgentRun run = agentRunRepository.findByIdWithSessionOwner(runId, UserContextHolder.get().userId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.RUN_NOT_FOUND));
         agentMessageRepository.save(new AgentMessage(
                 run.getSessionId(),

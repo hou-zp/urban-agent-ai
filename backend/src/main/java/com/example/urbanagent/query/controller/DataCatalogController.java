@@ -8,6 +8,7 @@ import com.example.urbanagent.query.application.dto.MetricDefinitionView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ public class DataCatalogController {
 
     @PostMapping("/sync")
     @Operation(summary = "同步演示数据目录", description = "写入 MVP 演示用的数据源、表、字段和指标定义")
+    @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<DataCatalogSyncResult> syncCatalog() {
         return ApiResponse.success(dataCatalogApplicationService.syncDemoCatalog());
     }

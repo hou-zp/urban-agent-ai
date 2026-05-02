@@ -477,8 +477,9 @@ public class ChatApplicationService {
     }
 
     private void assertSessionExists(String sessionId) {
-        sessionRepository.findById(sessionId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.SESSION_NOT_FOUND));
+        if (!sessionRepository.existsByIdAndUserId(sessionId, UserContextHolder.get().userId())) {
+            throw new BusinessException(ErrorCode.SESSION_NOT_FOUND);
+        }
     }
 
     private List<String> loadHistory(String sessionId) {

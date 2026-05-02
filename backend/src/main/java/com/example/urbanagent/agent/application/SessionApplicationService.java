@@ -41,7 +41,7 @@ public class SessionApplicationService {
 
     @Transactional(readOnly = true)
     public SessionView getSession(String sessionId) {
-        AgentSession session = sessionRepository.findById(sessionId)
+        AgentSession session = sessionRepository.findByIdAndUserId(sessionId, UserContextHolder.get().userId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.SESSION_NOT_FOUND));
         List<MessageView> messages = messageRepository.findBySessionIdOrderByCreatedAtAsc(sessionId)
                 .stream()

@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,6 +46,7 @@ public class KnowledgeController {
 
     @PostMapping(path = "/documents", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "上传知识文档", description = "上传文本类政策、法规或业务文档并保存元数据")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ApiResponse<KnowledgeDocumentView> uploadDocument(@Valid @ModelAttribute UploadKnowledgeDocumentRequest request) {
         return ApiResponse.success(knowledgeService.uploadDocument(request));
     }
@@ -57,12 +59,14 @@ public class KnowledgeController {
 
     @PostMapping("/documents/{documentId}/index")
     @Operation(summary = "索引知识文档", description = "解析文档、生成分块和 embedding，并激活可检索状态")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ApiResponse<KnowledgeDocumentView> indexDocument(@Parameter(description = "文档 ID") @PathVariable String documentId) {
         return ApiResponse.success(knowledgeService.indexDocument(documentId));
     }
 
     @PostMapping("/documents/{documentId}/status")
     @Operation(summary = "更新文档状态", description = "调整文档为 active、expired、abolished 等状态")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ApiResponse<KnowledgeDocumentView> updateStatus(@Parameter(description = "文档 ID") @PathVariable String documentId,
                                                            @Valid @RequestBody UpdateKnowledgeStatusRequest request) {
         return ApiResponse.success(knowledgeService.updateStatus(documentId, request));
@@ -70,6 +74,7 @@ public class KnowledgeController {
 
     @PostMapping(path = "/documents/{documentId}/attachment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "上传文档附件", description = "将政策原文或补充附件写入对象存储，并绑定到知识文档")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ApiResponse<KnowledgeAttachmentView> uploadAttachment(@Parameter(description = "文档 ID") @PathVariable String documentId,
                                                                  @RequestParam("file") MultipartFile file) {
         return ApiResponse.success(knowledgeAttachmentService.uploadAttachment(documentId, file));
