@@ -1,1 +1,48 @@
+# Java / Spring Boot
+backend/target/
+backend/*.class
+backend/*.jar
+backend/*.war
+backend/.mvn/
+backend/.idea/
+backend/*.iml
+backend/logs/
+backend/data/
+
+# Vue 3 / Node
+frontend/node_modules/
+frontend/dist/
+frontend/.DS_Store
+frontend/*.local
+
+# Build artifacts
+**/*.class
+**/*.jar
+**/*.war
+**/*.zip
+**/*.tar.gz
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Deployment staging (local configs, do not commit)
+.staging/
+.staging-*/
 .ace-tool/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.code-workspace
+
+deploy/releases/
+
+# Secrets (never commit)
+*.env
+config/*.local.*
+**/application-local.yml
+**/application-local.yaml
