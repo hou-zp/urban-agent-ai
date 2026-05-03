@@ -261,7 +261,7 @@
                   <a-popover
                     v-if="message.citations?.length"
                     placement="topLeft"
-                    :trigger="['hover', 'click']"
+                    trigger="click"
                     overlay-class-name="chat-citation-popover"
                   >
                     <template #content>
@@ -278,6 +278,22 @@
                       查看依据
                     </button>
                   </a-popover>
+
+                  <!-- 追问建议按钮组 -->
+                  <div v-if="message === store.latestAssistantMessage && !store.sending" class="chat-suggestion-actions">
+                    <span class="chat-suggestion-actions__label">试试再问：</span>
+                    <a-space :size="4" wrap>
+                      <a-button
+                        v-for="sug in suggestedFollowUps"
+                        :key="sug"
+                        size="small"
+                        class="chat-followup-btn"
+                        @click="handleFollowUp(sug)"
+                      >
+                        {{ sug }}
+                      </a-button>
+                    </a-space>
+                  </div>
                 </a-space>
               </div>
             </div>
@@ -719,6 +735,13 @@ const assistantMessageRefs = new Map<string, HTMLElement>()
 let clearPlanFocusTimer: number | null = null
 
 const quickSuggestions = QUESTION_TYPE_OPTIONS
+
+const suggestedFollowUps = [
+  '这个政策的适用条件是什么？',
+  '相关法规条款有哪些？',
+  '处置流程是什么？',
+  '处罚标准是多少？',
+]
 
 const workbenchNavItems = [
   { to: '/knowledge', label: '知识文档' },
@@ -1235,6 +1258,18 @@ function handleWorkbenchNav(item: { to: string; label: string }) {
 
 function handleLogout() {
   authStore.logout()
+}
+
+function handleFollowUp(question: string) {
+  draft.value = question
+  void nextTick(() => {
+    messageInputRef.value?.focus?.()
+    const el = document.querySelector<HTMLTextAreaElement>('.chat-input-box textarea')
+    if (el) {
+      el.focus()
+      el.setSelectionRange(el.value.length, el.value.length)
+    }
+  })
 }
 
 async function handleSessionAction(sessionId: string, action: string) {
@@ -2335,11 +2370,11 @@ function summarizePlanProgress(plan?: PlanView | null) {
   transition: background var(--duration-fast) var(--ease-default);
 }
 
-.chat-history-item:hover {
+.chat-history-item:hover > .chat-history-item__btn {
   background: var(--bg-hover);
 }
 
-.chat-history-item.is-active {
+.chat-history-item.is-active > .chat-history-item__btn {
   background: var(--color-primary-bg);
 }
 
@@ -2480,9 +2515,36 @@ function summarizePlanProgress(plan?: PlanView | null) {
   min-width: 160px;
 }
 
-.chat-inline-icon.ant-btn.is-active {
-  background: var(--color-primary-bg);
+/* ===== 追问建议按钮组 ===== */
+.chat-suggestion-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-color-light);
+}
+
+.chat-suggestion-actions__label {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+.chat-followup-btn {
+  font-size: var(--text-xs) !important;
+  height: 26px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-full);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+.chat-followup-btn:hover {
+  border-color: var(--color-primary-border);
   color: var(--color-primary);
+  background: var(--color-primary-bg);
 }
 
 /* ===== AI 助手消息 ===== */
