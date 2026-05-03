@@ -23,10 +23,13 @@
 
 ## 已确认的关键决策
 
-- MVP 包含轻量前端 UI：对话、知识文档、智能问数、审计简表。
+- 完整实现 Vue 3 前端：对话、知识文档、智能问数、审计简表、登录认证。
 - 前端采用 Vue 3 + Vite + TypeScript，前后端分离部署。
 - 后端采用 Java 17 + Spring Boot 3.x + AgentScope Java，模块化单体。
 - 数据底座采用 PostgreSQL + pgvector。
-- 智能问数支持完整 NL2SQL，但 SQL 必须经过数据目录约束、AST 校验、权限改写、只读执行和审计。
-- 认证权限 MVP 使用内置用户角色模型，预留 OAuth2/OIDC。
-- 当前研发侧预验收通过，正式试点验收需由试点用户现场确认。
+- 智能问数支持完整 NL2SQL，SQL 必须经过数据目录约束、AST 校验、权限改写、只读执行和审计。
+- 图表能力接入，查询结果自动推断并返回图表规格（折线/柱/饼/表格）。
+- 认证权限支持 JWT + Header 认证，预留 OAuth2/OIDC。
+- 智能体支持结构化计划执行、依赖补跑、法制审核链路、运行时 Guardrail。
+- 全链路审计、OpenTelemetry 追踪、结构化日志、脱敏。
+- 已通过生产级安全评审和 Adversarial Review。
