@@ -23,16 +23,16 @@ spring:
     time-zone: Asia/Shanghai
   data:
     redis:
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
-      database: ${REDIS_DATABASE:0}
-      timeout: ${REDIS_TIMEOUT:2s}
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 2s
   rabbitmq:
-    host: ${RABBITMQ_HOST:localhost}
-    port: ${RABBITMQ_PORT:5672}
-    username: ${RABBITMQ_USERNAME:guest}
-    password: ${RABBITMQ_PASSWORD:guest}
-    virtual-host: ${RABBITMQ_VHOST:/}
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
 
 management:
   health:
@@ -53,7 +53,7 @@ management:
       probability: 1.0
   otlp:
     tracing:
-      endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://localhost:4318/v1/traces}
+      endpoint: http://localhost:4318/v1/traces
 
 logging:
   include-application-name: false
@@ -71,8 +71,8 @@ urban-agent:
     header-auth:
       enabled: false
     jwt:
-      # 提示：在 application-dev.yml 或环境变量 JWT_SECRET 中配置实际密钥
-      secret: dev-only-secret-replace-in-production
+      # 开发阶段直接维护在此；生产环境通过环境变量 URBAN_AGENT_JWT_SECRET 注入
+      secret: ${URBAN_AGENT_JWT_SECRET:5990d2c9c74f82d7ac4b19f5c5628166f332f055d79164d8}
       expiration-hours: 8
     oauth2:
       enabled: false
@@ -82,20 +82,20 @@ urban-agent:
         region: region
   ai:
     gateway:
-      type: ${URBAN_AGENT_AI_GATEWAY_TYPE:legacy}
+      type: legacy
   model:
-    provider: ${URBAN_AGENT_MODEL_PROVIDER:openai-compatible}
+    provider: openai-compatible
     api-key: ${OPENAI_API_KEY:}
-    base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+    base-url: https://api.openai.com
     embedding-api-key: ${OPENAI_EMBEDDING_API_KEY:}
-    embedding-base-url: ${OPENAI_EMBEDDING_BASE_URL:}
+    embedding-base-url: https://api.openai.com
     chat-path: /v1/chat/completions
     embeddings-path: /v1/embeddings
-    chat-model: ${OPENAI_MODEL:gpt-4o-mini}
-    embedding-model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
+    chat-model: gpt-4o-mini
+    embedding-model: text-embedding-3-small
     temperature: 0.2
-    connect-timeout-ms: ${OPENAI_CONNECT_TIMEOUT_MS:5000}
-    read-timeout-ms: ${OPENAI_READ_TIMEOUT_MS:30000}
+    connect-timeout-ms: 5000
+    read-timeout-ms: 30000
   bootstrap:
     demo-data:
       enabled: false
@@ -132,10 +132,10 @@ urban-agent:
     provider: local
     bucket: knowledge-attachments
     local-base-path: ./data/object-storage
-    endpoint: ${OBJECT_STORAGE_ENDPOINT:}
-    access-key: ${OBJECT_STORAGE_ACCESS_KEY:}
-    secret-key: ${OBJECT_STORAGE_SECRET_KEY:}
-    public-base-url: ${OBJECT_STORAGE_PUBLIC_BASE_URL:}
+    endpoint:
+    access-key:
+    secret-key:
+    public-base-url:
     max-file-size-bytes: 10485760
     allowed-content-types:
       - text/plain
@@ -158,7 +158,7 @@ urban-agent:
   agentscope:
     enabled: false
     model-name: gpt-4o-mini
-    api-key: ${OPENAI_API_KEY:}
+    api-key: ${AGENTSCOPE_API_KEY:}
     base-url:
     max-iters: 6
     system-prompt: |

@@ -67,6 +67,19 @@ public record ChartSpec(
     }
 
     /**
+     * 创建饼图规范。
+     */
+    public static ChartSpec pie(String chartId, String title, String queryId,
+                                String dataSourceName, String caliber,
+                                List<String> xFields, List<String> yFields,
+                                List<Map<String, Object>> dataset) {
+        return new ChartSpec(
+                chartId, ChartType.PIE, title, queryId, dataSourceName, caliber,
+                Instant.now(), xFields, yFields, dataset
+        );
+    }
+
+    /**
      * 创建表格规范。
      */
     public static ChartSpec table(String chartId, String title, String queryId,
