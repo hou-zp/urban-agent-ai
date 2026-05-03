@@ -5,16 +5,27 @@
         <div class="chat-brand-row">
           <div class="chat-brand-mark">AI</div>
           <div class="chat-brand-name">风险提升综合智能体</div>
-          <a-dropdown placement="bottomRight" trigger="click">
-            <a-button class="chat-rail-icon" type="text">
-              <MenuOutlined />
-            </a-button>
-            <template #overlay>
-              <a-menu @click="handleWorkbenchNav">
-                <a-menu-item v-for="item in workbenchNavItems" :key="item.to">{{ item.label }}</a-menu-item>
-              </a-menu>
-            </template>
-          </a-dropdown>
+          <div class="chat-brand-right">
+            <a-dropdown placement="bottomRight" trigger="click">
+              <a-button class="chat-rail-icon" type="text">
+                <UserOutlined />
+              </a-button>
+              <template #overlay>
+                <a-menu>
+                  <a-menu-item key="user-info" disabled>
+                    <div class="chat-user-menu-item">
+                      <span class="chat-user-menu-item__name">{{ authStore.user?.userId }}</span>
+                      <span class="chat-user-menu-item__role">{{ authStore.user?.role }}</span>
+                    </div>
+                  </a-menu-item>
+                  <a-menu-divider />
+                  <a-menu-item v-for="item in workbenchNavItems" :key="item.to" @click="handleWorkbenchNav(item)">{{ item.label }}</a-menu-item>
+                  <a-menu-divider />
+                  <a-menu-item key="logout" @click="handleLogout">退出登录</a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+          </div>
         </div>
 
         <a-button block class="chat-new-button" @click="handleCreateSession">
@@ -639,6 +650,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons-vue'
 import { useChatStore } from '@/stores/chat'
+import { useAuthStore } from '@/stores/auth'
 import type { MessageCitationView, MessageView, PlanStepView, PlanView, QueryConversationView, SessionView } from '@/types/api'
 import { inferSessionQuestionTypes, QUESTION_TYPE_OPTIONS, type QuestionTypeLabel } from '@/utils/chat'
 import {
@@ -660,6 +672,7 @@ const CaliberExplanation = defineAsyncComponent(() => import('@/components/Calib
 const route = useRoute()
 const router = useRouter()
 const store = useChatStore()
+const authStore = useAuthStore()
 const draft = ref('')
 const newSessionTitle = ref('默认会话')
 const useStreaming = ref(true)
@@ -1189,8 +1202,12 @@ function openAuthDrawer() {
   window.dispatchEvent(new CustomEvent('urban-agent:open-auth-drawer'))
 }
 
-function handleWorkbenchNav(payload: { key: string | number }) {
-  void router.push(String(payload.key))
+function handleWorkbenchNav(item: { to: string; label: string }) {
+  void router.push(item.to)
+}
+
+function handleLogout() {
+  authStore.logout()
 }
 
 async function copyMessage(content: string) {
@@ -2553,7 +2570,31 @@ function summarizePlanProgress(plan?: PlanView | null) {
   max-width: 420px;
 }
 
-.chat-citation-link {
+.chat-brand-right {
+  margin-left: auto;
+}
+
+.chat-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-user-menu-item {
+  display: grid;
+  gap: 2px;
+}
+
+.chat-user-menu-item__name {
+  font-weight: 600;
+  font-size: 13px;
+  color: #1a1a2e;
+}
+
+.chat-user-menu-item__role {
+  font-size: 12px;
+  color: #6b7280;
+}
   padding: 0 2px;
   border: none;
   background: transparent;

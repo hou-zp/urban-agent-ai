@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
@@ -65,8 +65,18 @@ const auth = useAuthStore()
 const loading = ref(false)
 const errorMsg = ref('')
 const formRef = ref()
+const isDark = ref(false)
 
-const formState = reactive({
+onMounted(() => {
+  isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    isDark.value = e.matches
+  })
+})
+
+const cardClass = computed(() => (isDark.value ? 'dark' : ''))
+
+const formState = ref({
   userId: 'demo-user',
   password: 'Urban2026!',
 })
@@ -80,7 +90,7 @@ async function handleLogin() {
   loading.value = true
   errorMsg.value = ''
   try {
-    const ok = await auth.login(formState.userId, formState.password)
+    const ok = await auth.login(formState.value.userId, formState.value.password)
     if (ok) {
       router.push('/')
     } else {
@@ -154,5 +164,25 @@ async function handleLogin() {
   font-size: 12px;
   color: #9ca3af;
   margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .login-page {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  }
+
+  .login-card {
+    background: #1e2533;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  }
+
+  .login-card__title {
+    color: #e2e8f0;
+  }
+
+  .login-card__subtitle,
+  .login-card__hint {
+    color: #94a3b8;
+  }
 }
 </style>
