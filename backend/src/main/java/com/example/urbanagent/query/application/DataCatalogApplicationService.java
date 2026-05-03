@@ -199,15 +199,15 @@ public class DataCatalogApplicationService {
         dataFieldRepository.saveAll(fields);
 
         List<MetricDefinition> metrics = List.of(
-                metric("complaint_count", "投诉数量", "统计指定时间范围内投诉工单总量", "sum(complaint_count)", "report_date", "street_code,region_code", complaintTable.getTableName(), "city", "CITY-COMPLAINT-2026.01", "verified", "全市", "2026-01-31T00:00:00Z"),
-                metric("inspection_problem_count", "巡查问题数量", "统计巡查发现问题总量", "sum(problem_count)", "inspection_date", "grid_name,street_code", inspectionTable.getTableName(), "district-a", "DISTRICT-INSPECTION-2026.01", "verified", "示范区 A", "2026-01-31T00:00:00Z"),
-                metric("overdue_case_count", "超期案件数量", "统计案件办理超期数量", "sum(case when overdue_flag then 1 else 0 end)", "case_date", "case_status,street_code", caseTable.getTableName(), "city", "CITY-CASE-2026.01", "verified", "全市", "2026-01-31T00:00:00Z"),
-                metric("oil_fume_warning_count", "油烟超标预警数量", "统计柯桥区餐饮油烟浓度超标预警总量", "sum(warning_count)", "warning_date", "street_code,warning_level", oilFumeTable.getTableName(), "shaoxing-keqiao", "KQ-OILFUME-WARN-2026.01", "sensor", "绍兴市柯桥区", "2026-01-31T00:00:00Z"),
-                metric("oil_fume_unclosed_warning_count", "未闭环油烟预警数量", "统计柯桥区尚未闭环的油烟浓度超标预警数量", "sum(unclosed_count)", "warning_date", "street_code,warning_level", oilFumeTable.getTableName(), "shaoxing-keqiao", "KQ-OILFUME-UNCLOSED-2026.01", "sensor", "绍兴市柯桥区", "2026-01-31T00:00:00Z"),
-                metric("oil_fume_avg_concentration", "油烟平均浓度", "统计柯桥区油烟监测平均浓度", "avg(avg_concentration)", "warning_date", "street_code,warning_level", oilFumeTable.getTableName(), "shaoxing-keqiao", "KQ-OILFUME-AVG-2026.01", "sensor", "绍兴市柯桥区", "2026-01-31T00:00:00Z"),
-                metric("oil_fume_max_concentration", "油烟最高浓度", "统计柯桥区油烟监测最高浓度", "max(max_concentration)", "warning_date", "street_code,warning_level", oilFumeTable.getTableName(), "shaoxing-keqiao", "KQ-OILFUME-MAX-2026.01", "sensor", "绍兴市柯桥区", "2026-01-31T00:00:00Z"),
-                metric("oil_fume_closure_rate", "油烟预警闭环率", "统计柯桥区油烟预警闭环率", "case when sum(warning_count) = 0 then 0 else round((sum(warning_count) - sum(unclosed_count)) * 100.0 / sum(warning_count), 2) end", "warning_date", "street_code,warning_level", oilFumeWarningEventTable.getTableName(), "shaoxing-keqiao", "KQ-OILFUME-CLOSURE-2026.01", "derived", "绍兴市柯桥区", "2026-01-31T00:00:00Z"),
-                metric("oil_fume_repeat_warning_count", "单位反复预警次数", "统计单位在指定时间范围内触发的油烟预警批次数，用于识别反复预警单位", "count(*)", "warning_date", "unit_name,street_code,warning_level", oilFumeWarningEventTable.getTableName(), "shaoxing-keqiao", "KQ-OILFUME-REPEAT-2026.01", "derived", "绍兴市柯桥区", "2026-01-31T00:00:00Z")
+                metric("complaint_count", "投诉数量", "统计指定时间范围内投诉工单总量", "sum(complaint_count)", "report_date", "street_code,region_code", complaintTable.getTableName(), "primary-jdbc", "city", "CITY-COMPLAINT-2026.01", "verified", "全市", "2026-01-31T00:00:00Z"),
+                metric("inspection_problem_count", "巡查问题数量", "统计巡查发现问题总量", "sum(problem_count)", "inspection_date", "grid_name,street_code", inspectionTable.getTableName(), "primary-jdbc", "district-a", "DISTRICT-INSPECTION-2026.01", "verified", "示范区 A", "2026-01-31T00:00:00Z"),
+                metric("overdue_case_count", "超期案件数量", "统计案件办理超期数量", "sum(case when overdue_flag then 1 else 0 end)", "case_date", "case_status,street_code", caseTable.getTableName(), "primary-jdbc", "city", "CITY-CASE-2026.01", "verified", "全市", "2026-01-31T00:00:00Z"),
+                metric("oil_fume_warning_count", "油烟超标预警数量", "统计柯桥区餐饮油烟浓度超标预警总量", "sum(warning_count)", "warning_date", "street_code,warning_level", oilFumeTable.getTableName(), "primary-jdbc", "shaoxing-keqiao", "KQ-OILFUME-WARN-2026.01", "sensor", "绍兴市柯桥区", "2026-01-31T00:00:00Z"),
+                metric("oil_fume_unclosed_warning_count", "未闭环油烟预警数量", "统计柯桥区尚未闭环的油烟浓度超标预警数量", "sum(unclosed_count)", "warning_date", "street_code,warning_level", oilFumeTable.getTableName(), "primary-jdbc", "shaoxing-keqiao", "KQ-OILFUME-UNCLOSED-2026.01", "sensor", "绍兴市柯桥区", "2026-01-31T00:00:00Z"),
+                metric("oil_fume_avg_concentration", "油烟平均浓度", "统计柯桥区油烟监测平均浓度", "avg(avg_concentration)", "warning_date", "street_code,warning_level", oilFumeTable.getTableName(), "primary-jdbc", "shaoxing-keqiao", "KQ-OILFUME-AVG-2026.01", "sensor", "绍兴市柯桥区", "2026-01-31T00:00:00Z"),
+                metric("oil_fume_max_concentration", "油烟最高浓度", "统计柯桥区油烟监测最高浓度", "max(max_concentration)", "warning_date", "street_code,warning_level", oilFumeTable.getTableName(), "primary-jdbc", "shaoxing-keqiao", "KQ-OILFUME-MAX-2026.01", "sensor", "绍兴市柯桥区", "2026-01-31T00:00:00Z"),
+                metric("oil_fume_closure_rate", "油烟预警闭环率", "统计柯桥区油烟预警闭环率", "case when sum(warning_count) = 0 then 0 else round((sum(warning_count) - sum(unclosed_count)) * 100.0 / sum(warning_count), 2) end", "warning_date", "street_code,warning_level", oilFumeWarningEventTable.getTableName(), "primary-jdbc", "shaoxing-keqiao", "KQ-OILFUME-CLOSURE-2026.01", "derived", "绍兴市柯桥区", "2026-01-31T00:00:00Z"),
+                metric("oil_fume_repeat_warning_count", "单位反复预警次数", "统计单位在指定时间范围内触发的油烟预警批次数，用于识别反复预警单位", "count(*)", "warning_date", "unit_name,street_code,warning_level", oilFumeWarningEventTable.getTableName(), "primary-jdbc", "shaoxing-keqiao", "KQ-OILFUME-REPEAT-2026.01", "derived", "绍兴市柯桥区", "2026-01-31T00:00:00Z")
         );
         metricDefinitionRepository.saveAll(metrics);
         seedDemoFactDataFromScript();
@@ -232,6 +232,7 @@ public class DataCatalogApplicationService {
                                     String defaultTimeField,
                                     String commonDimensions,
                                     String tableName,
+                                    String dataSourceCode,
                                     String regionCode,
                                     String caliberVersion,
                                     String dataQuality,
@@ -245,6 +246,7 @@ public class DataCatalogApplicationService {
                 defaultTimeField,
                 commonDimensions,
                 tableName,
+                dataSourceCode,
                 regionCode,
                 caliberVersion,
                 dataQuality,

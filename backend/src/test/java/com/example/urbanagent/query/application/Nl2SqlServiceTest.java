@@ -29,6 +29,7 @@ class Nl2SqlServiceTest {
             "complaint_time",
             "street_code,region_code,case_status",
             "fact_complaint_order",
+            "primary-jdbc",
             "shaoxing-keqiao",
             "CITY-COMPLAINT-2026.01",
             "verified",

@@ -39,6 +39,9 @@ public class MetricDefinition {
     @Column(nullable = false, length = 120)
     private String tableName;
 
+    @Column(name = "data_source_code", length = 64)
+    private String dataSourceCode;
+
     @Column(length = 64)
     private String regionCode;
 
@@ -73,6 +76,7 @@ public class MetricDefinition {
                             String defaultTimeField,
                             String commonDimensions,
                             String tableName,
+                            String dataSourceCode,
                             String regionCode,
                             String caliberVersion,
                             String dataQuality,
@@ -86,6 +90,7 @@ public class MetricDefinition {
         this.defaultTimeField = defaultTimeField;
         this.commonDimensions = commonDimensions;
         this.tableName = tableName;
+        this.dataSourceCode = dataSourceCode;
         this.regionCode = regionCode;
         this.caliberVersion = caliberVersion;
         this.dataQuality = dataQuality;
@@ -142,6 +147,10 @@ public class MetricDefinition {
 
     public String getTableName() {
         return tableName;
+    }
+
+    public String getDataSourceCode() {
+        return dataSourceCode;
     }
 
     public String getRegionCode() {
