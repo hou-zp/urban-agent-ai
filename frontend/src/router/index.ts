@@ -23,15 +23,15 @@ const router = createRouter({
         },
         {
           path: 'query',
-          redirect: '/',
-        },
-        {
-          path: 'query',
           component: () => import('@/pages/QueryPage.vue'),
         },
         {
           path: 'audit',
           component: () => import('@/pages/AuditPage.vue'),
+        },
+        {
+          path: 'profile',
+          component: () => import('@/pages/ProfilePage.vue'),
         },
       ],
     },

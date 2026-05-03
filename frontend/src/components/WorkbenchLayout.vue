@@ -94,6 +94,14 @@
       <!-- 顶部导航栏 48px -->
       <a-layout-header class="app-header">
         <div class="header-left">
+          <!-- 系统Logo与名称，点击刷新/返回 -->
+          <router-link to="/" class="header-logo-link" aria-label="城市风貌智能工作台">
+            <div class="header-logo-mark">
+              <RobotOutlined />
+            </div>
+            <span class="header-logo-name">城市风貌智能工作台</span>
+          </router-link>
+
           <a-button
             type="text"
             class="collapse-btn"
@@ -111,8 +119,8 @@
         <div class="header-right">
           <a-space :size="12">
             <!-- 管理后台入口：仅管理员/审计员可见 -->
-            <a-tooltip v-if="isAdminRole" title="管理后台">
-              <a-button type="text" class="header-admin-btn" @click="router.push('/admin')">
+            <a-tooltip v-if="isAdminRole" title="管理后台（待实现）">
+              <a-button type="text" class="header-admin-btn" disabled>
                 <SettingOutlined />
                 <span class="header-admin-btn__label">管理</span>
               </a-button>
@@ -144,6 +152,10 @@
                     </div>
                   </a-menu-item>
                   <a-menu-divider />
+                  <a-menu-item key="profile" @click="router.push('/profile')">
+                    <UserOutlined /> 个人中心
+                  </a-menu-item>
+                  <a-menu-divider />
                   <a-menu-item key="swagger">
                     <ApiOutlined /> 查看接口文档
                   </a-menu-item>
@@ -171,6 +183,7 @@ import { computed, ref } from 'vue'
 import { useRouter, RouterView, useRoute } from 'vue-router'
 import {
   ApiOutlined,
+  DatabaseOutlined,
   DownOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
@@ -211,6 +224,12 @@ const navItems = [
     label: '知识文档',
     icon: BookOutlined,
     breadcrumb: '知识文档',
+  },
+  {
+    path: '/query',
+    label: '智能问数',
+    icon: DatabaseOutlined,
+    breadcrumb: '智能问数',
   },
   {
     path: '/audit',
@@ -529,6 +548,34 @@ function handleLogout() {
 }
 
 /* ===== 顶部导航栏 48px ===== */
+.header-logo-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.header-logo-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  display: grid;
+  place-items: center;
+  font-size: var(--text-base);
+  flex: 0 0 auto;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-logo-name {
+  font-size: var(--text-md);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
 .app-header.ant-layout-header {
   height: 48px;
   padding: 0 var(--space-5);
@@ -541,7 +588,6 @@ function handleLogout() {
   top: 0;
   z-index: var(--z-sticky);
   box-shadow: var(--shadow-xs);
-  line-height: 48px;
 }
 
 .header-left {

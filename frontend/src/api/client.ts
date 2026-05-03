@@ -96,6 +96,17 @@ export async function postJson<T>(url: string, body: unknown): Promise<T> {
   })
 }
 
+export async function putJson<T>(url: string, body: unknown): Promise<T> {
+  return requestJson<T>(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      ...defaultHeaders(),
+    },
+    body: JSON.stringify(body),
+  })
+}
+
 export async function postForm<T>(url: string, body: FormData): Promise<T> {
   return requestJson<T>(url, {
     method: 'POST',
