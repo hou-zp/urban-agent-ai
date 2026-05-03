@@ -1,11 +1,11 @@
 <template>
   <a-layout class="app-shell">
-    <!-- 侧边栏 -->
+    <!-- 侧边栏 280px -->
     <a-layout-sider
       v-model:collapsed="collapsed"
       class="app-sider"
-      :width="sidebarWidth"
-      :collapsed-width="collapsedWidth"
+      :width="280"
+      :collapsed-width="64"
       :trigger="null"
       collapsible
       theme="light"
@@ -17,33 +17,65 @@
             <RobotOutlined />
           </div>
           <div v-if="!collapsed" class="brand-logo__text">
-            <span class="brand-logo__name">Urban Agent</span>
+            <span class="brand-logo__name">城市风貌智能工作台</span>
             <span class="brand-logo__tagline">城管 AI 智能体平台</span>
           </div>
         </div>
       </div>
 
-      <!-- 导航 -->
-      <a-menu
-        mode="inline"
-        :selected-keys="[currentNav.path]"
-        class="nav-menu"
-        @click="({ key }) => router.push(key)"
-      >
-        <a-menu-item
-          v-for="nav in navItems"
-          :key="nav.path"
-          class="nav-item"
-        >
-          <template #icon>
-            <component :is="nav.icon" />
-          </template>
-          <span class="nav-item__label">{{ nav.label }}</span>
-          <span v-if="nav.badge" class="nav-item__badge">{{ nav.badge }}</span>
-        </a-menu-item>
-      </a-menu>
+      <!-- 新建对话按钮 -->
+      <div v-if="!collapsed" class="sider-new-btn-wrap">
+        <a-button type="primary" block class="sider-new-btn" @click="handleNewSession">
+          <PlusOutlined /> 新建对话
+        </a-button>
+      </div>
 
-      <!-- 侧边栏底部用户信息 -->
+      <!-- 搜索历史 -->
+      <div v-if="!collapsed" class="sider-search">
+        <a-input
+          v-model:value="searchKeyword"
+          placeholder="搜索历史会话..."
+          allow-clear
+          @change="onSearchChange"
+        >
+          <template #prefix>
+            <SearchOutlined style="color: var(--text-tertiary)" />
+          </template>
+        </a-input>
+      </div>
+
+      <!-- 历史会话列表 -->
+      <div class="sider-history">
+        <div
+          v-for="group in filteredHistoryGroups"
+          :key="group.label"
+          class="sider-history-group"
+        >
+          <div class="sider-history-label">{{ group.label }}</div>
+          <button
+            v-for="session in group.sessions"
+            :key="session.id"
+            class="sider-history-item"
+            :class="{ 'is-active': currentSessionId === session.id }"
+            type="button"
+            @click="handleSelectSession(session.id)"
+          >
+            <div class="sider-history-item__title">{{ session.title }}</div>
+            <div class="sider-history-item__tags">
+              <span
+                v-for="tag in sessionTags(session)"
+                :key="`${session.id}-${tag}`"
+                class="sider-history-tag"
+              >
+                {{ tag }}
+              </span>
+            </div>
+            <div class="sider-history-item__time">{{ sessionTimeLabel(session) }}</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- 侧边栏底部 -->
       <div v-if="!collapsed" class="sider-footer">
         <div class="sider-footer__user">
           <div class="sider-footer__avatar">
@@ -59,10 +91,9 @@
 
     <!-- 主内容区 -->
     <a-layout class="main-area">
-      <!-- 顶部栏 -->
+      <!-- 顶部导航栏 48px -->
       <a-layout-header class="app-header">
         <div class="header-left">
-          <!-- 折叠按钮 -->
           <a-button
             type="text"
             class="collapse-btn"
@@ -72,22 +103,30 @@
             <MenuUnfoldOutlined v-else />
           </a-button>
 
-          <!-- 面包屑 -->
           <nav class="breadcrumb" aria-label="当前位置">
             <span class="breadcrumb__item">{{ currentNav.breadcrumb }}</span>
           </nav>
         </div>
 
         <div class="header-right">
-          <!-- 快捷入口 -->
           <a-space :size="12">
+            <!-- 管理后台入口：仅管理员/审计员可见 -->
+            <a-tooltip v-if="isAdminRole" title="管理后台">
+              <a-button type="text" class="header-admin-btn" @click="router.push('/admin')">
+                <SettingOutlined />
+                <span class="header-admin-btn__label">管理</span>
+              </a-button>
+            </a-tooltip>
+
             <a-tooltip title="查看接口文档">
               <a-button type="text" href="/swagger-ui.html" target="_blank">
                 <ApiOutlined />
               </a-button>
             </a-tooltip>
+
             <a-divider type="vertical" style="height: 20px; margin: 0" />
-            <!-- 用户菜单 -->
+
+            <!-- 用户下拉菜单 -->
             <a-dropdown placement="bottomRight" trigger="click">
               <a-button type="text" class="user-menu-btn">
                 <template #icon>
@@ -132,14 +171,17 @@ import { computed, ref } from 'vue'
 import { useRouter, RouterView, useRoute } from 'vue-router'
 import {
   ApiOutlined,
-  AuditOutlined,
-  BookOutlined,
   DownOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   MessageOutlined,
+  PlusOutlined,
   RobotOutlined,
+  SearchOutlined,
+  SettingOutlined,
+  BookOutlined,
+  AuditOutlined,
   UserOutlined,
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
@@ -149,8 +191,13 @@ const route = useRoute()
 const authStore = useAuthStore()
 const collapsed = ref(false)
 
-const sidebarWidth = 248
-const collapsedWidth = 64
+const searchKeyword = ref('')
+const currentSessionId = ref<string | null>(null)
+
+const isAdminRole = computed(() => {
+  const role = authStore.user?.role
+  return role === 'ADMIN' || role === 'AUDITOR'
+})
 
 const navItems = [
   {
@@ -170,13 +217,96 @@ const navItems = [
     label: '审计简表',
     icon: AuditOutlined,
     breadcrumb: '审计简表',
+    adminOnly: true,
   },
 ]
 
-const currentNav = computed(() => {
-  const item = navItems.find((n) => n.path === route.path)
-  return item ?? navItems[0]
+const visibleNavItems = computed(() => {
+  return navItems.filter((n) => !n.adminOnly || isAdminRole.value)
 })
+
+const currentNav = computed(() => {
+  const item = visibleNavItems.value.find((n) => n.path === route.path)
+  return item ?? visibleNavItems.value[0]
+})
+
+interface SessionItem {
+  id: string
+  title: string
+  tags: string[]
+  updatedAt: string
+}
+
+const mockSessions: SessionItem[] = [
+  { id: '1', title: '占道经营案件统计', tags: ['业务咨询'], updatedAt: new Date().toISOString() },
+  { id: '2', title: '政策解读：市容管理条例', tags: ['政策解读'], updatedAt: new Date(Date.now() - 86400000).toISOString() },
+  { id: '3', title: '法规咨询：处罚标准', tags: ['法规咨询'], updatedAt: new Date(Date.now() - 86400000 * 2).toISOString() },
+]
+
+const filteredHistoryGroups = computed(() => {
+  const keyword = searchKeyword.value.trim().toLowerCase()
+  const filtered = keyword
+    ? mockSessions.filter((s) => s.title.toLowerCase().includes(keyword))
+    : mockSessions
+
+  return [
+    {
+      label: '今天',
+      sessions: filtered.filter((s) => {
+        const d = new Date(s.updatedAt)
+        const now = new Date()
+        return d.toDateString() === now.toDateString()
+      }),
+    },
+    {
+      label: '昨天',
+      sessions: filtered.filter((s) => {
+        const d = new Date(s.updatedAt)
+        const now = new Date()
+        const yesterday = new Date(now)
+        yesterday.setDate(yesterday.getDate() - 1)
+        return d.toDateString() === yesterday.toDateString()
+      }),
+    },
+    {
+      label: '更早',
+      sessions: filtered.filter((s) => {
+        const d = new Date(s.updatedAt)
+        const now = new Date()
+        const yesterday = new Date(now)
+        yesterday.setDate(yesterday.getDate() - 1)
+        return d < yesterday
+      }),
+    },
+  ].filter((g) => g.sessions.length > 0)
+})
+
+function sessionTags(session: SessionItem): string[] {
+  return session.tags
+}
+
+function sessionTimeLabel(session: SessionItem): string {
+  const d = new Date(session.updatedAt)
+  const now = new Date()
+  if (d.toDateString() === now.toDateString()) {
+    return d.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', hour12: false })
+  }
+  return d.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' })
+}
+
+function onSearchChange() {
+  // filter is reactive via computed
+}
+
+function handleNewSession() {
+  currentSessionId.value = null
+  router.push('/')
+}
+
+function handleSelectSession(id: string) {
+  currentSessionId.value = id
+  router.push('/')
+}
 
 function handleLogout() {
   authStore.logout()
@@ -185,12 +315,11 @@ function handleLogout() {
 </script>
 
 <style scoped>
-/* ===== 布局 ===== */
 .app-shell {
   min-height: 100vh;
 }
 
-/* ===== 侧边栏 ===== */
+/* ===== 侧边栏 280px ===== */
 .app-sider.ant-layout-sider {
   background: var(--bg-surface) !important;
   border-inline-end: 1px solid var(--border-color) !important;
@@ -201,7 +330,7 @@ function handleLogout() {
 
 /* ===== 品牌区 ===== */
 .brand-panel {
-  padding: var(--space-4);
+  padding: var(--space-4) var(--space-4);
   border-bottom: 1px solid var(--border-color-light);
   min-height: var(--header-height);
   display: flex;
@@ -240,6 +369,9 @@ function handleLogout() {
   font-weight: var(--font-bold);
   color: var(--text-primary);
   line-height: var(--leading-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .brand-logo__tagline {
@@ -249,52 +381,106 @@ function handleLogout() {
   margin-top: 2px;
 }
 
-/* ===== 导航菜单 ===== */
-.nav-menu {
+/* ===== 新建对话按钮 ===== */
+.sider-new-btn-wrap {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-color-light);
+}
+
+.sider-new-btn {
+  height: 38px;
+  font-weight: var(--font-medium);
+}
+
+/* ===== 搜索框 ===== */
+.sider-search {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-color-light);
+}
+
+/* ===== 历史会话列表 ===== */
+.sider-history {
   flex: 1;
-  border-inline-end: 0 !important;
-  background: transparent !important;
-  padding: var(--space-2) var(--space-3);
   overflow-y: auto;
+  padding: var(--space-2) 0;
 }
 
-.nav-item {
-  height: 40px !important;
-  line-height: 40px !important;
-  margin-block: 2px !important;
-  border-radius: var(--radius-md) !important;
-  font-size: var(--text-base) !important;
-  display: flex;
-  align-items: center;
-  gap: var(--space-3) !important;
+.sider-history-group {
+  margin-bottom: var(--space-1);
+}
+
+.sider-history-label {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  font-weight: var(--font-medium);
+  letter-spacing: 0.04em;
+}
+
+.sider-history-item {
+  width: 100%;
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  border-left: 3px solid transparent;
   transition: background var(--duration-fast) var(--ease-default),
-              color var(--duration-fast) var(--ease-default);
+              border-color var(--duration-fast) var(--ease-default);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.nav-item .anticon {
-  font-size: 16px;
-  flex: 0 0 auto;
+.sider-history-item:hover {
+  background: var(--bg-hover);
 }
 
-.nav-item__label {
-  flex: 1;
-  min-width: 0;
+.sider-history-item.is-active {
+  background: var(--color-primary-bg);
+  border-left-color: var(--color-primary);
+}
+
+.sider-history-item__title {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  line-height: var(--leading-snug);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.nav-item__badge {
-  background: var(--color-error);
-  color: var(--text-inverse);
+.sider-history-item.is-active .sider-history-item__title {
+  color: var(--color-primary-text);
+  font-weight: var(--font-medium);
+}
+
+.sider-history-item__tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.sider-history-tag {
   font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  background: var(--bg-inset);
   padding: 0 6px;
   border-radius: var(--radius-full);
   line-height: 18px;
-  flex: 0 0 auto;
 }
 
-/* ===== 侧边栏底部 ===== */
+.sider-history-item.is-active .sider-history-tag {
+  background: var(--color-primary-border);
+  color: var(--color-primary-text);
+}
+
+.sider-history-item__time {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+/* ===== 侧边栏底部用户信息 ===== */
 .sider-footer {
   padding: var(--space-4);
   border-top: 1px solid var(--border-color-light);
@@ -342,10 +528,10 @@ function handleLogout() {
   color: var(--text-tertiary);
 }
 
-/* ===== 顶部栏 ===== */
+/* ===== 顶部导航栏 48px ===== */
 .app-header.ant-layout-header {
-  height: var(--header-height);
-  padding: 0 var(--space-6);
+  height: 48px;
+  padding: 0 var(--space-5);
   background: var(--bg-surface) !important;
   border-bottom: 1px solid var(--border-color);
   display: flex;
@@ -355,12 +541,13 @@ function handleLogout() {
   top: 0;
   z-index: var(--z-sticky);
   box-shadow: var(--shadow-xs);
+  line-height: 48px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-3);
   min-width: 0;
 }
 
@@ -394,7 +581,29 @@ function handleLogout() {
 .header-right {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-3);
+}
+
+.header-admin-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 30px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+}
+
+.header-admin-btn:hover {
+  border-color: var(--color-primary-border);
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+}
+
+.header-admin-btn__label {
+  font-size: var(--text-sm);
 }
 
 /* ===== 用户菜单 ===== */
@@ -402,10 +611,10 @@ function handleLogout() {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-1) var(--space-3);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  height: 36px;
+  height: 32px;
   background: var(--bg-surface);
   color: var(--text-primary);
   font-size: var(--text-sm);
@@ -417,7 +626,7 @@ function handleLogout() {
 }
 
 .user-menu-btn__name {
-  max-width: 120px;
+  max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -437,8 +646,8 @@ function handleLogout() {
 }
 
 .app-content.ant-layout-content {
-  padding: var(--space-6);
-  min-height: calc(100vh - var(--header-height));
+  padding: var(--space-5);
+  min-height: calc(100vh - 48px);
   background: var(--bg-base);
 }
 </style>

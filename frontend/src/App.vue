@@ -84,14 +84,14 @@ const authState = computed(() => ({
 const themeConfig = {
   algorithm: theme.defaultAlgorithm,
   token: {
-    colorPrimary: '#1a56db',
+    colorPrimary: '#1a5afe',
     colorSuccess: '#059669',
     colorWarning: '#d97706',
     colorError: '#dc2626',
-    colorInfo: '#1a56db',
+    colorInfo: '#1a5afe',
     borderRadius: 8,
     fontFamily: '"PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif',
-    colorBgLayout: '#f0f4f8',
+    colorBgLayout: '#f5f7fa',
     colorBgContainer: '#ffffff',
     colorBgElevated: '#ffffff',
     colorText: '#0f172a',

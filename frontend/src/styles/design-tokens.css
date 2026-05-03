@@ -5,50 +5,17 @@
  */
 
 :root {
-  /* ===== 品牌色 Primary Blue ===== */
-  --color-primary: #1a56db;
-  --color-primary-light: #2b6dd4;
-  --color-primary-dark: #1341b0;
-  --color-primary-hover: #1e4fc9;
-  --color-primary-active: #1138a3;
-  --color-primary-bg: #eff4ff;
+  /* ===== 品牌色 Primary Blue（政务蓝 #1A5AFE）===== */
+  --color-primary: #1a5afe;
+  --color-primary-light: #3073fb;
+  --color-primary-dark: #0048d4;
+  --color-primary-hover: #3b82f6;
+  --color-primary-active: #0048d4;
+  --color-primary-bg: #eff6ff;
   --color-primary-border: #bfdbfe;
-  --color-primary-text: #1e40af;
-
-  /* ===== 语义色 Semantic Colors ===== */
-  --color-success: #059669;
-  --color-success-bg: #ecfdf5;
-  --color-success-border: #a7f3d0;
-  --color-success-text: #047857;
-
-  --color-warning: #d97706;
-  --color-warning-bg: #fffbeb;
-  --color-warning-border: #fde68a;
-  --color-warning-text: #b45309;
-
-  --color-error: #dc2626;
-  --color-error-bg: #fef2f2;
-  --color-error-border: #fecaca;
-  --color-error-text: #b91c1c;
-
-  --color-info: #1a56db;
-  --color-info-bg: #eff4ff;
-  --color-info-border: #bfdbfe;
-  --color-info-text: #1e40af;
-
-  --color-risk-low: #059669;
-  --color-risk-medium: #d97706;
-  --color-risk-high: #dc2626;
-  --color-risk-critical: #9f1239;
+  --color-primary-text: #1d4ed8;
 
   /* ===== 背景色 Background Colors ===== */
-  --bg-base: #f0f4f8;
-  --bg-surface: #ffffff;
-  --bg-elevated: #ffffff;
-  --bg-inset: #f8fafc;
-  --bg-hover: #f1f5f9;
-  --bg-active: #e8eef5;
-  --bg-overlay: rgba(15, 23, 42, 0.45);
 
   /* ===== 边框 Border Colors ===== */
   --border-color: #dde3ed;

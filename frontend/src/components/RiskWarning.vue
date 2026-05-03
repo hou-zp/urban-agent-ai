@@ -82,9 +82,10 @@ const reviewStatusText = computed(() => {
 }
 
 .risk-warning--HIGH {
-  background: #fef2f2;
-  border: 1px solid #fca5a5;
-  color: #991b1b;
+  background: #fffbeb;
+  border: none;
+  border-inline-start: 3px solid var(--color-warning);
+  color: #92400e;
 }
 
 .risk-warning--CRITICAL {
