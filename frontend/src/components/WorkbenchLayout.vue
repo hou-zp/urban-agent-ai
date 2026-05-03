@@ -119,8 +119,8 @@
         <div class="header-right">
           <a-space :size="12">
             <!-- 管理后台入口：仅管理员/审计员可见 -->
-            <a-tooltip v-if="isAdminRole" title="管理后台（待实现）">
-              <a-button type="text" class="header-admin-btn" disabled>
+            <a-tooltip v-if="isAdminRole" title="管理后台">
+              <a-button type="text" class="header-admin-btn" @click="router.push('/admin')">
                 <SettingOutlined />
                 <span class="header-admin-btn__label">管理</span>
               </a-button>

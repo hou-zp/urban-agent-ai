@@ -35,6 +35,43 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: '/admin',
+      component: () => import('@/components/AdminLayout.vue'),
+      meta: { requiresAdmin: true },
+      children: [
+        {
+          path: '',
+          name: 'dashboard',
+          component: () => import('@/pages/admin/AdminDashboard.vue'),
+        },
+        {
+          path: 'audit',
+          name: 'audit',
+          component: () => import('@/pages/admin/AdminAudit.vue'),
+        },
+        {
+          path: 'knowledge',
+          name: 'knowledge',
+          component: () => import('@/pages/admin/AdminKnowledge.vue'),
+        },
+        {
+          path: 'users',
+          name: 'users',
+          component: () => import('@/pages/admin/AdminUsers.vue'),
+        },
+        {
+          path: 'config',
+          name: 'config',
+          component: () => import('@/pages/admin/AdminConfig.vue'),
+        },
+        {
+          path: 'logs',
+          name: 'logs',
+          component: () => import('@/pages/admin/AdminLogs.vue'),
+        },
+      ],
+    },
   ],
 })
 
@@ -43,6 +80,12 @@ router.beforeEach((to) => {
   const auth = useAuthStore()
   if (!auth.isLoggedIn) {
     return '/login'
+  }
+  if (to.meta.requiresAdmin) {
+    const role = auth.user?.role
+    if (role !== 'ADMIN' && role !== 'AUDITOR') {
+      return '/'
+    }
   }
   return true
 })

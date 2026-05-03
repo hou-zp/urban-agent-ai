@@ -107,6 +107,13 @@ export async function putJson<T>(url: string, body: unknown): Promise<T> {
   })
 }
 
+export async function deleteJson<T>(url: string): Promise<T> {
+  return requestJson<T>(url, {
+    method: 'DELETE',
+    headers: defaultHeaders(),
+  })
+}
+
 export async function postForm<T>(url: string, body: FormData): Promise<T> {
   return requestJson<T>(url, {
     method: 'POST',

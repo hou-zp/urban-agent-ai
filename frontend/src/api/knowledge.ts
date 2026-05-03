@@ -38,6 +38,14 @@ export function searchKnowledge(query: string, category?: KnowledgeCategory, lim
   return getJson<KnowledgeSearchHitView[]>('/api/v1/knowledge/search', { query, category, limit })
 }
 
+export async function recallKnowledge(query: string, limit = 10): Promise<KnowledgeSearchHitView[]> {
+  try {
+    return await getJson<KnowledgeSearchHitView[]>('/api/v1/knowledge/search', { query, limit })
+  } catch {
+    return []
+  }
+}
+
 function appendIfPresent(form: FormData, key: string, value?: string) {
   if (value?.trim()) {
     form.set(key, value.trim())
