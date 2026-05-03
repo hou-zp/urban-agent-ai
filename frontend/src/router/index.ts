@@ -11,24 +11,23 @@ const router = createRouter({
     },
     {
       path: '/',
-      component: () => import('@/pages/ChatPage.vue'),
-    },
-    {
-      path: '/',
       component: () => import('@/components/WorkbenchLayout.vue'),
       children: [
+        {
+          path: '',
+          component: () => import('@/pages/ChatPage.vue'),
+        },
         {
           path: 'knowledge',
           component: () => import('@/pages/KnowledgePage.vue'),
         },
         {
           path: 'query',
-          redirect: (to) => ({
-            path: '/',
-            query: {
-              ...to.query,
-            },
-          }),
+          redirect: '/',
+        },
+        {
+          path: 'query',
+          component: () => import('@/pages/QueryPage.vue'),
         },
         {
           path: 'audit',

@@ -1,16 +1,20 @@
 <template>
-  <section class="dashboard-page">
-    <div class="page-hero">
-      <div class="page-hero-copy">
-        <p class="page-kicker">Data Query</p>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-copy">
+        <div class="page-kicker">Data Query</div>
         <h2 class="page-title">智能问数</h2>
         <p class="page-description">
-          输入业务问题后直接生成结果，系统会自动完成指标识别、授权范围处理和只读查询。您只需要关注口径说明、风险提示和最终数据。
+          输入业务问题后直接生成结果，系统会自动完成指标识别、授权范围处理和只读查询。
         </p>
       </div>
-      <div class="hero-actions">
-        <a-button :loading="loadingCatalog" @click="loadCatalog">刷新目录</a-button>
-        <a-button type="primary" :loading="syncing" @click="handleSyncCatalog">同步演示目录</a-button>
+      <div class="page-actions">
+        <a-button :loading="loadingCatalog" @click="loadCatalog">
+          <ReloadOutlined /> 刷新目录
+        </a-button>
+        <a-button type="primary" :loading="syncing" @click="handleSyncCatalog">
+          同步演示目录
+        </a-button>
       </div>
     </div>
 
@@ -246,7 +250,7 @@
         <a-empty v-else description="按业务类型、关键字和状态筛选后，可在这里查看受控明细。" />
       </div>
     </a-card>
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -262,6 +266,7 @@ import type {
 } from '@/types/api'
 import { formatFriendlyCell } from '@/utils/queryPresentation'
 import PointMapPreview from '@/components/PointMapPreview.vue'
+import { ReloadOutlined } from '@ant-design/icons-vue'
 
 const question = ref('请统计本月各区占道经营案件数量，并按数量降序排列')
 const metrics = ref<MetricDefinitionView[]>([])

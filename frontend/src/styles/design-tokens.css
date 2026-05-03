@@ -1,0 +1,231 @@
+/**
+ * Design System Tokens
+ * 城管 AI 智能体平台 · 企业级视觉规范 v2.0
+ * 所有设计决策收敛于此，任何 CSS 值必须引用 token，禁止硬编码
+ */
+
+:root {
+  /* ===== 品牌色 Primary Blue ===== */
+  --color-primary: #1a56db;
+  --color-primary-light: #2b6dd4;
+  --color-primary-dark: #1341b0;
+  --color-primary-hover: #1e4fc9;
+  --color-primary-active: #1138a3;
+  --color-primary-bg: #eff4ff;
+  --color-primary-border: #bfdbfe;
+  --color-primary-text: #1e40af;
+
+  /* ===== 语义色 Semantic Colors ===== */
+  --color-success: #059669;
+  --color-success-bg: #ecfdf5;
+  --color-success-border: #a7f3d0;
+  --color-success-text: #047857;
+
+  --color-warning: #d97706;
+  --color-warning-bg: #fffbeb;
+  --color-warning-border: #fde68a;
+  --color-warning-text: #b45309;
+
+  --color-error: #dc2626;
+  --color-error-bg: #fef2f2;
+  --color-error-border: #fecaca;
+  --color-error-text: #b91c1c;
+
+  --color-info: #1a56db;
+  --color-info-bg: #eff4ff;
+  --color-info-border: #bfdbfe;
+  --color-info-text: #1e40af;
+
+  --color-risk-low: #059669;
+  --color-risk-medium: #d97706;
+  --color-risk-high: #dc2626;
+  --color-risk-critical: #9f1239;
+
+  /* ===== 背景色 Background Colors ===== */
+  --bg-base: #f0f4f8;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-inset: #f8fafc;
+  --bg-hover: #f1f5f9;
+  --bg-active: #e8eef5;
+  --bg-overlay: rgba(15, 23, 42, 0.45);
+
+  /* ===== 边框 Border Colors ===== */
+  --border-color: #dde3ed;
+  --border-color-light: #e8eef5;
+  --border-color-strong: #c4cdda;
+  --border-color-primary: var(--color-primary-border);
+
+  /* ===== 文字 Text Colors ===== */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
+  --text-disabled: #cbd5e1;
+  --text-placeholder: #94a3b8;
+  --text-inverse: #ffffff;
+  --text-link: var(--color-primary);
+
+  /* ===== 阴影 Elevation Shadows ===== */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 6px rgba(15, 23, 42, 0.05), 0 2px 4px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 15px rgba(15, 23, 42, 0.06), 0 4px 6px rgba(15, 23, 42, 0.04);
+  --shadow-xl: 0 20px 25px rgba(15, 23, 42, 0.08), 0 8px 10px rgba(15, 23, 42, 0.04);
+  --shadow-2xl: 0 25px 50px rgba(15, 23, 42, 0.12), 0 12px 20px rgba(15, 23, 42, 0.06);
+  --shadow-inner: inset 0 1px 3px rgba(15, 23, 42, 0.08);
+  --shadow-primary: 0 4px 14px rgba(26, 86, 219, 0.25);
+
+  /* ===== 圆角 Border Radius ===== */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+
+  /* ===== 间距 Spacing ===== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ===== 字号 Font Sizes ===== */
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 13px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: 18px;
+  --text-2xl: 20px;
+  --text-3xl: 24px;
+  --text-4xl: 30px;
+
+  /* ===== 行高 Line Heights ===== */
+  --leading-tight: 1.25;
+  --leading-snug: 1.4;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+  --leading-loose: 1.8;
+
+  /* ===== 字重 Font Weights ===== */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* ===== 布局 Layout ===== */
+  --sidebar-width: 256px;
+  --sidebar-collapsed-width: 64px;
+  --header-height: 60px;
+  --content-max-width: 1400px;
+  --chat-max-width: 860px;
+
+  /* ===== 动效 Animation ===== */
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ===== Z-Index ===== */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky: 100;
+  --z-drawer: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+  --z-tooltip: 500;
+
+  /* ===== 字体族 Font Families ===== */
+  --font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SF Mono", "Cascadia Code", "Fira Code", "JetBrains Mono", Consolas, monospace;
+}
+
+/* ===== 全局重置 Global Reset ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 14px;
+  scroll-behavior: smooth;
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  font-weight: var(--font-normal);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background: var(--bg-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--text-link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ===== 滚动条样式 Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color-strong);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* ===== 选中样式 Selection ===== */
+::selection {
+  background: var(--color-primary-bg);
+  color: var(--color-primary-text);
+}
+
+/* ===== 焦点样式 Focus ===== */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}

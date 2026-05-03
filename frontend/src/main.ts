@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import 'ant-design-vue/dist/reset.css'
+import './styles/design-tokens.css'
 import './styles/main.css'
 
 const app = createApp(App)

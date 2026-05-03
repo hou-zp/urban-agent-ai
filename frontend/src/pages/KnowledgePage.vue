@@ -1,15 +1,18 @@
 <template>
-  <section class="dashboard-page">
-    <div class="page-hero">
-      <div class="page-hero-copy">
-        <p class="page-kicker">Knowledge Base</p>
+  <div class="page-container">
+    <!-- 页面头部 -->
+    <div class="page-header">
+      <div class="page-header-copy">
+        <div class="page-kicker">Knowledge Base</div>
         <h2 class="page-title">知识文档</h2>
         <p class="page-description">
-          管理政策法规、执法规范与热线处置资料。支持文档录入、索引状态维护和相似片段检索，帮助回答保持出处清晰、口径一致。
+          管理政策法规、执法规范与热线处置资料，支持文档录入、索引状态维护和相似片段检索。
         </p>
       </div>
-      <div class="hero-actions">
-        <a-button :loading="loading" @click="loadDocuments">刷新列表</a-button>
+      <div class="page-actions">
+        <a-button :loading="loading" @click="loadDocuments">
+          <ReloadOutlined /> 刷新列表
+        </a-button>
       </div>
     </div>
 
@@ -43,7 +46,7 @@
           <a-row :gutter="16">
             <a-col :span="24">
               <a-form-item label="标题">
-                <a-input v-model:value="form.title" maxlength="160" placeholder="例如：城市管理执法事项办理规范" />
+                <a-input v-model:value="form.title" :maxlength="160" placeholder="例如：城市管理执法事项办理规范" />
               </a-form-item>
             </a-col>
 
@@ -54,29 +57,29 @@
             </a-col>
             <a-col :span="12">
               <a-form-item label="适用区域">
-                <a-input v-model:value="form.regionCode" maxlength="64" placeholder="city / district-a" />
+                <a-input v-model:value="form.regionCode" :maxlength="64" placeholder="city / district-a" />
               </a-form-item>
             </a-col>
 
             <a-col :span="12">
               <a-form-item label="发文机关">
-                <a-input v-model:value="form.sourceOrg" maxlength="120" placeholder="发文机关" />
+                <a-input v-model:value="form.sourceOrg" :maxlength="120" placeholder="发文机关" />
               </a-form-item>
             </a-col>
             <a-col :span="12">
               <a-form-item label="文号">
-                <a-input v-model:value="form.documentNumber" maxlength="80" placeholder="文号" />
+                <a-input v-model:value="form.documentNumber" :maxlength="80" placeholder="文号" />
               </a-form-item>
             </a-col>
 
             <a-col :span="12">
               <a-form-item label="生效日期">
-                <a-input v-model:value="form.effectiveFrom" maxlength="20" placeholder="YYYY-MM-DD" />
+                <a-input v-model:value="form.effectiveFrom" :maxlength="20" placeholder="YYYY-MM-DD" />
               </a-form-item>
             </a-col>
             <a-col :span="12">
               <a-form-item label="失效日期">
-                <a-input v-model:value="form.effectiveTo" maxlength="20" placeholder="YYYY-MM-DD" />
+                <a-input v-model:value="form.effectiveTo" :maxlength="20" placeholder="YYYY-MM-DD" />
               </a-form-item>
             </a-col>
 
@@ -233,13 +236,13 @@
         </a-table-column>
       </a-table>
     </a-card>
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import type { UploadProps } from 'ant-design-vue'
-import { InboxOutlined } from '@ant-design/icons-vue'
+import { InboxOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import {
   indexKnowledgeDocument,
   listKnowledgeDocuments,

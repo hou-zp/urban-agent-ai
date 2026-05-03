@@ -1,6 +1,6 @@
-import { defineStore } from 'vue'
-import { postJson, STORAGE_KEYS } from './client'
-import type { ApiResponse } from '@/types/api'
+import { computed, ref } from 'vue'
+import { defineStore } from 'pinia'
+import { getJson, postJson, STORAGE_KEYS } from '@/api/client'
 
 export interface LoginResponse {
   accessToken: string
@@ -54,11 +54,13 @@ export const useAuthStore = defineStore('auth', () => {
   async function fetchMe(): Promise<void> {
     if (!token.value) return
     try {
-      const resp = await postJson<UserInfo>('/api/v1/auth/me', {})
+      const resp = await getJson<UserInfo>('/api/v1/auth/me')
       user.value = resp
       localStorage.setItem(USER_KEY, JSON.stringify(resp))
     } catch {
-      // token may be invalid
+      token.value = null
+      user.value = null
+      clearToken()
     }
   }
 

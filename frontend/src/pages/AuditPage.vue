@@ -1,15 +1,17 @@
 <template>
-  <section class="dashboard-page">
-    <div class="page-hero">
-      <div class="page-hero-copy">
-        <p class="page-kicker">Audit Board</p>
+  <div class="page-container">
+    <div class="page-header">
+      <div class="page-header-copy">
+        <div class="page-kicker">Audit Board</div>
         <h2 class="page-title">审计简表</h2>
         <p class="page-description">
-          查看最近运行、工具调用、问数记录、风险事件和模型调用，适合作为日常巡检和交付验收的回放台账。
+          查看最近运行、工具调用、问数记录、风险事件和模型调用，适合日常巡检和交付验收回放。
         </p>
       </div>
-      <div class="hero-actions">
-        <a-button type="primary" :loading="loading" @click="loadAudits">刷新审计</a-button>
+      <div class="page-actions">
+        <a-button type="primary" :loading="loading" @click="loadAudits">
+          <ReloadOutlined /> 刷新审计
+        </a-button>
       </div>
     </div>
 
@@ -113,7 +115,7 @@
         <a-empty description="没有匹配的审计记录。" />
       </div>
     </a-card>
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -125,6 +127,7 @@ import {
   listRiskEventAudits,
   listToolCallAudits,
 } from '@/api/audit'
+import { ReloadOutlined } from '@ant-design/icons-vue'
 import type {
   AgentRunAuditView,
   ModelCallAuditView,
@@ -286,8 +289,8 @@ function filterRows<T extends AuditRow>(rows: T[]) {
   })
 }
 
-function rowKey(record: AuditRow, index: number) {
-  return `${record.id}-${index}`
+function rowKey(record: AuditRow) {
+  return record.id
 }
 
 function shortId(value: string | null) {
