@@ -30,7 +30,7 @@ public class AiDataSource {
     @Column(name = "source_type", nullable = false, length = 64)
     private String sourceType;
 
-    @Column(name = "connection_config", columnDefinition = "jsonb")
+    @Column(name = "connection_config", length = 4000)
     private String connectionConfig;
 
     @Column(name = "owner_department", length = 128)

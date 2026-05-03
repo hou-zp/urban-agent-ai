@@ -6,7 +6,7 @@ CREATE TABLE ai_data_source (
     data_source_code VARCHAR(128) UNIQUE NOT NULL,
     data_source_name VARCHAR(256) NOT NULL,
     source_type VARCHAR(64) NOT NULL,         -- JDBC / REST / DATA_PLATFORM / MOCK_ONLY_DEV
-    connection_config JSONB,                   -- 连接配置（JSON，含 host/port/database 等）
+    connection_config VARCHAR(4000),                   -- 连接配置（JSON，含 host/port/database 等）
     owner_department VARCHAR(128),             -- 负责部门
     update_frequency VARCHAR(64),             -- 更新频率：实时/日/周/月
     security_level VARCHAR(32),               -- PUBLIC / INTERNAL / CONFIDENTIAL
