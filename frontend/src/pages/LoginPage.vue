@@ -59,6 +59,7 @@
           :rules="rules"
           layout="vertical"
           class="login-form"
+          @keydown="handleKeydown"
           @finish="handleLogin"
         >
           <a-form-item label="用户 ID" name="userId">
@@ -196,6 +197,16 @@ async function handleLogin() {
     errorMsg.value = (err as Error).message || '登录失败，请稍后重试'
   } finally {
     loading.value = false
+  }
+}
+
+function handleKeydown(e: KeyboardEvent) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    void formRef.value?.validate().then((result: { valid: boolean }) => {
+      if (result.valid) {
+        handleLogin()
+      }
+    })
   }
 }
 </script>

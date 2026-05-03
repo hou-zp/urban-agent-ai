@@ -39,22 +39,38 @@
       <div class="chat-history-scroll">
         <div v-for="group in historyGroups" :key="group.label" class="chat-history-group">
           <div class="chat-history-label">{{ group.label }}</div>
-          <button
+          <div
             v-for="session in group.sessions"
             :key="session.id"
             class="chat-history-item"
             :class="{ 'is-active': session.id === store.currentSession?.id }"
-            :disabled="store.loading || store.creatingSession || store.sending"
-            type="button"
-            @click="handleSelectSession(session.id)"
           >
-            <div class="chat-history-title">{{ session.title }}</div>
-            <div class="chat-history-tags">
-              <span v-for="type in sessionCategories(session)" :key="`${session.id}-${type}`" class="chat-history-tag">
-                {{ type }}
-              </span>
-            </div>
-          </button>
+            <a-dropdown :trigger="['contextMenu']" placement="leftTop">
+              <button
+                class="chat-history-item__btn"
+                type="button"
+                :disabled="store.loading || store.creatingSession || store.sending"
+                @click="handleSelectSession(session.id)"
+              >
+                <div class="chat-history-title">{{ session.title }}</div>
+                <div class="chat-history-tags">
+                  <span v-for="type in sessionCategories(session)" :key="`${session.id}-${type}`" class="chat-history-tag">
+                    {{ type }}
+                  </span>
+                </div>
+              </button>
+              <template #overlay>
+                <a-menu @click="({ key }) => handleSessionAction(session.id, key as string)">
+                  <a-menu-item key="delete">
+                    <DeleteOutlined /> 删除会话
+                  </a-menu-item>
+                  <a-menu-item key="archive">
+                    <FolderOutlined /> 归档会话
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+          </div>
         </div>
       </div>
     </aside>
@@ -223,15 +239,24 @@
                     </a-button>
                   </a-tooltip>
                   <a-tooltip title="需改进">
-                    <a-button
-                      class="chat-inline-icon"
-                      :class="{ 'is-active': feedbackByMessage[message.id] === 'dislike' }"
-                      type="text"
-                      aria-label="点踩回复"
-                      @click="markFeedback(message.id, 'dislike')"
-                    >
-                      <DislikeOutlined />
-                    </a-button>
+                    <a-dropdown :trigger="['click']" placement="topLeft" overlay-class-name="chat-dislike-dropdown">
+                      <a-button
+                        class="chat-inline-icon"
+                        :class="{ 'is-active': feedbackByMessage[message.id] === 'dislike' }"
+                        type="text"
+                        aria-label="点踩回复"
+                      >
+                        <DislikeOutlined />
+                      </a-button>
+                      <template #overlay>
+                        <a-menu @click="({ key }) => markFeedbackWithReason(message.id, String(key))">
+                          <a-menu-item key="inaccurate">内容不准确</a-menu-item>
+                          <a-menu-item key="incomplete">信息不完整</a-menu-item>
+                          <a-menu-item key="unclear">表述不清楚</a-menu-item>
+                          <a-menu-item key="other">其他原因</a-menu-item>
+                        </a-menu>
+                      </template>
+                    </a-dropdown>
                   </a-tooltip>
                   <a-popover
                     v-if="message.citations?.length"
@@ -642,8 +667,10 @@ import {
   AppstoreOutlined,
   ArrowUpOutlined,
   CopyOutlined,
+  DeleteOutlined,
   DislikeOutlined,
   EditOutlined,
+  FolderOutlined,
   LikeOutlined,
   MenuOutlined,
   PlusOutlined,
@@ -1210,6 +1237,16 @@ function handleLogout() {
   authStore.logout()
 }
 
+async function handleSessionAction(sessionId: string, action: string) {
+  if (action === 'delete') {
+    // 后端 DELETE /api/v1/agent/sessions/:id 支持后接入
+    void sessionId
+    antMessage.warning('删除会话需后端接口支持')
+  } else if (action === 'archive') {
+    antMessage.info('归档功能待后端支持')
+  }
+}
+
 async function copyMessage(content: string) {
   if (!content) {
     return
@@ -1382,6 +1419,13 @@ function markFeedback(messageId: string, value: 'like' | 'dislike') {
   next[messageId] = value
   feedbackByMessage.value = next
   antMessage.success(value === 'like' ? '已标记为有帮助' : '已记录改进意见')
+}
+
+function markFeedbackWithReason(messageId: string, reason: string) {
+  const next = { ...feedbackByMessage.value }
+  next[messageId] = 'dislike'
+  feedbackByMessage.value = next
+  antMessage.success(`已记录改进意见：${reason}`)
 }
 
 function toggleQuestionType(type: QuestionTypeLabel) {
@@ -2287,15 +2331,7 @@ function summarizePlanProgress(plan?: PlanView | null) {
 
 .chat-history-item {
   width: 100%;
-  text-align: left;
-  padding: var(--space-3);
-  border: 0;
   border-radius: var(--radius-md);
-  background: transparent;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
   transition: background var(--duration-fast) var(--ease-default);
 }
 
@@ -2305,6 +2341,19 @@ function summarizePlanProgress(plan?: PlanView | null) {
 
 .chat-history-item.is-active {
   background: var(--color-primary-bg);
+}
+
+.chat-history-item__btn {
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: var(--radius-md);
 }
 
 .chat-history-item:disabled {
@@ -2419,6 +2468,16 @@ function summarizePlanProgress(plan?: PlanView | null) {
 .chat-inline-icon.ant-btn:hover {
   background: var(--bg-hover);
   color: var(--text-secondary);
+}
+
+.chat-inline-icon.ant-btn.is-active {
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+}
+
+/* ===== 点踩下拉菜单 ===== */
+.chat-dislike-dropdown .ant-dropdown-menu {
+  min-width: 160px;
 }
 
 .chat-inline-icon.ant-btn.is-active {
