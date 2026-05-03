@@ -54,9 +54,10 @@ public class ChatApplicationService {
     private final RequestRateLimiter requestRateLimiter;
     private final RunControlService runControlService;
     private final PlanApplicationService planApplicationService;
-    private final QuestionParsingService questionParsingService;
+    private final IntentAnalysisService intentAnalysisService;
     private final TrustedAnswerService trustedAnswerService;
     private final AuditLogService auditLogService;
+    private final AgentConstants agentConstants;
 
     public ChatApplicationService(AgentSessionRepository sessionRepository,
                                   AgentMessageRepository messageRepository,
@@ -70,9 +71,10 @@ public class ChatApplicationService {
                                   RequestRateLimiter requestRateLimiter,
                                   RunControlService runControlService,
                                   PlanApplicationService planApplicationService,
-                                  QuestionParsingService questionParsingService,
+                                  IntentAnalysisService intentAnalysisService,
                                   TrustedAnswerService trustedAnswerService,
-                                  AuditLogService auditLogService) {
+                                  AuditLogService auditLogService,
+                                  AgentConstants agentConstants) {
         this.sessionRepository = sessionRepository;
         this.messageRepository = messageRepository;
         this.runRepository = runRepository;
@@ -85,9 +87,10 @@ public class ChatApplicationService {
         this.requestRateLimiter = requestRateLimiter;
         this.runControlService = runControlService;
         this.planApplicationService = planApplicationService;
-        this.questionParsingService = questionParsingService;
+        this.intentAnalysisService = intentAnalysisService;
         this.trustedAnswerService = trustedAnswerService;
         this.auditLogService = auditLogService;
+        this.agentConstants = agentConstants;
     }
 
     @Observed(name = "urban.agent.chat")
@@ -96,7 +99,7 @@ public class ChatApplicationService {
         requestRateLimiter.checkChatRequest();
         assertSessionExists(sessionId);
         messageRepository.save(new AgentMessage(sessionId, MessageRole.USER, content));
-        AgentRun run = runRepository.save(new AgentRun(sessionId, UserContextHolder.get().userId(), content, "urban-management-agent"));
+        AgentRun run = runRepository.save(new AgentRun(sessionId, UserContextHolder.get().userId(), content, agentConstants.agentName()));
         auditLogService.recordAgentRunStarted(run);
         LoggingContext.put("runId", run.getId());
         LoggingContext.put("sessionId", sessionId);
@@ -145,7 +148,7 @@ public class ChatApplicationService {
     @Transactional
     public MessageView resumeCancelledRun(String sessionId, String content) {
         requestRateLimiter.checkChatRequest();
-        AgentRun run = runRepository.save(new AgentRun(sessionId, UserContextHolder.get().userId(), content, "urban-management-agent"));
+        AgentRun run = runRepository.save(new AgentRun(sessionId, UserContextHolder.get().userId(), content, agentConstants.agentName()));
         auditLogService.recordAgentRunStarted(run);
         LoggingContext.put("runId", run.getId());
         LoggingContext.put("sessionId", sessionId);
@@ -201,7 +204,7 @@ public class ChatApplicationService {
     @Transactional
     protected void runStreaming(String sessionId, String content, SseEmitter emitter) {
         messageRepository.save(new AgentMessage(sessionId, MessageRole.USER, content));
-        AgentRun run = runRepository.save(new AgentRun(sessionId, UserContextHolder.get().userId(), content, "urban-management-agent"));
+        AgentRun run = runRepository.save(new AgentRun(sessionId, UserContextHolder.get().userId(), content, agentConstants.agentName()));
         auditLogService.recordAgentRunStarted(run);
         LoggingContext.put("runId", run.getId());
         LoggingContext.put("sessionId", sessionId);
@@ -209,7 +212,7 @@ public class ChatApplicationService {
         runControlService.register(run, emitter);
 
         try {
-            ParsedQuestion parsedQuestion = questionParsingService.analyzeAndSave(run.getId(), content);
+            ParsedQuestion parsedQuestion = intentAnalysisService.analyzeAndSave(run.getId(), content);
             sendEvent(emitter, "message.meta", "{\"runId\":\"" + run.getId() + "\",\"startedAt\":\"" + Instant.now() + "\"}");
             runControlService.checkRunnable(run.getId());
             PromptAttackBlockResult promptAttackBlockResult = riskWorkflowService.createPromptAttackBlockIfRequired(sessionId, run, content);
@@ -327,7 +330,7 @@ public class ChatApplicationService {
                     answer.riskLevel(),
                     answer.reviewId()
             ));
-            saveToolCall(run.getId(), "urban-management-agent.streamChat", truncate(content), truncate(builder.toString()));
+            saveToolCall(run.getId(), agentConstants.streamChatToolName(), truncate(content), truncate(builder.toString()));
             run.complete();
             runRepository.save(run);
             auditLogService.recordAgentRunCompleted(run, "流式回答完成");
@@ -383,7 +386,7 @@ public class ChatApplicationService {
     }
 
     private MessageView answerWithinRun(String sessionId, String content, AgentRun run, boolean persistUserMessage) {
-        ParsedQuestion parsedQuestion = questionParsingService.analyzeAndSave(run.getId(), content);
+        ParsedQuestion parsedQuestion = intentAnalysisService.analyzeAndSave(run.getId(), content);
         runControlService.checkRunnable(run.getId());
         PromptAttackBlockResult promptAttackBlockResult = riskWorkflowService.createPromptAttackBlockIfRequired(sessionId, run, content);
         if (promptAttackBlockResult != null) {
@@ -451,7 +454,7 @@ public class ChatApplicationService {
                 answer.riskLevel(),
                 answer.reviewId()
         ));
-        saveToolCall(run.getId(), persistUserMessage ? "urban-management-agent.chat" : "urban-management-agent.resume", truncate(content), truncate(answer.content()));
+        saveToolCall(run.getId(), persistUserMessage ? agentConstants.chatToolName() : agentConstants.resumeToolName(), truncate(content), truncate(answer.content()));
         run.complete();
         runRepository.save(run);
         auditLogService.recordAgentRunCompleted(run, persistUserMessage ? "非流式回答完成" : "恢复运行完成");

@@ -155,6 +155,43 @@ urban-agent:
       - png
       - jpg
       - jpeg
+  agent:
+    agent-name: urban-management-agent
+    chat-tool-name: urban-management-agent.chat
+    stream-chat-tool-name: urban-management-agent.streamChat
+    resume-tool-name: urban-management-agent.resume
+  chart:
+    time-field-keywords:
+      - date
+      - month
+      - week
+      - day
+      - stat_date
+      - stat_month
+      - time
+      - period
+    dimension-field-keywords:
+      - street
+      - district
+      - unit
+      - category
+      - name
+      - type
+      - scene
+      - scene_code
+    proportion-keywords:
+      - percent
+      - ratio
+      - proportion
+      - 占比
+      - 比例
+    metric-field-keywords:
+      - value
+      - count
+      - metric
+      - total
+      - avg
+      - metric_value
   agentscope:
     enabled: false
     model-name: gpt-4o-mini

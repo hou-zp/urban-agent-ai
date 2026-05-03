@@ -28,6 +28,12 @@ import java.util.UUID;
 @Service
 public class ChartService {
 
+    private final ChartProperties chartProperties;
+
+    public ChartService(ChartProperties chartProperties) {
+        this.chartProperties = chartProperties;
+    }
+
     /**
      * 从查询卡片构建图表规格。
      *
@@ -158,14 +164,6 @@ public class ChartService {
 
     /**
      * 根据字段名推断图表类型。
-     *
-     * <ol>
-     *   <li>字段含时间维度 → 折线图</li>
-     *   <li>字段含类别维度 → 柱状图</li>
-     *   <li>占比分析（类别 <= 5）→ 饼图</li>
-     *   <li>行数 >= 2 → 柱状图</li>
-     *   <li>否则 → null（指标卡）</li>
-     * </ol>
      */
     public ChartType inferChartType(List<String> fields, List<Map<String, Object>> rows) {
         if (fields == null || fields.isEmpty() || rows == null || rows.isEmpty()) {
@@ -175,12 +173,12 @@ public class ChartService {
         String lowerFields = String.join(" ", fields).toLowerCase();
 
         // 时间维度 → 折线图
-        if (containsAny(lowerFields, "date", "month", "week", "day", "stat_date", "stat_month", "time", "period")) {
+        if (containsAny(lowerFields, chartProperties.timeFieldKeywords())) {
             return ChartType.LINE;
         }
 
         // 类别维度 → 柱状图
-        if (containsAny(lowerFields, "street", "district", "unit", "category", "name", "type", "scene", "scene_code")) {
+        if (containsAny(lowerFields, chartProperties.dimensionFieldKeywords())) {
             return ChartType.BAR;
         }
 
@@ -205,7 +203,7 @@ public class ChartService {
             return false;
         }
         String lowerFields = String.join(" ", fields).toLowerCase();
-        if (containsAny(lowerFields, "percent", "ratio", "proportion", "占比", "比例")) {
+        if (containsAny(lowerFields, chartProperties.proportionKeywords())) {
             return true;
         }
         // 类别名简短时倾向饼图
@@ -225,13 +223,13 @@ public class ChartService {
         }
         return switch (chartType) {
             case LINE -> fields.stream()
-                    .filter(f -> containsAny(f.toLowerCase(), "date", "month", "week", "day", "stat_date", "stat_month"))
+                    .filter(f -> containsAny(f.toLowerCase(), chartProperties.timeFieldKeywords()))
                     .findFirst()
                     .map(List::of)
                     .orElseGet(() -> List.of(fields.get(0)));
             case BAR, PIE, MAP, SCATTER -> {
                 String nameField = fields.stream()
-                        .filter(f -> !containsAny(f.toLowerCase(), "value", "count", "metric", "total", "avg", "metric_value"))
+                        .filter(f -> !containsAny(f.toLowerCase(), chartProperties.metricFieldKeywords()))
                         .findFirst()
                         .orElseGet(() -> fields.get(0));
                 yield List.of(nameField);
@@ -248,7 +246,7 @@ public class ChartService {
             return List.of();
         }
         return fields.stream()
-                .filter(f -> containsAny(f.toLowerCase(), "value", "count", "metric", "total", "avg", "metric_value"))
+                .filter(f -> containsAny(f.toLowerCase(), chartProperties.metricFieldKeywords()))
                 .findFirst()
                 .map(f -> List.of(f))
                 .orElse(List.of());
@@ -269,9 +267,12 @@ public class ChartService {
         };
     }
 
-    private boolean containsAny(String text, String... keywords) {
+    private boolean containsAny(String text, List<String> keywords) {
         for (String kw : keywords) {
-            if (text.contains(kw)) {
+            if (kw == null || kw.isBlank()) {
+                continue;
+            }
+            if (text.contains(kw.toLowerCase())) {
                 return true;
             }
         }
